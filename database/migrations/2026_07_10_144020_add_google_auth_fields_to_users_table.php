@@ -23,7 +23,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropUnique(['google_id']);
+            $table->dropColumn('google_id');
+            $table->string('password')->nullable(false)->change();
         });
     }
 };
