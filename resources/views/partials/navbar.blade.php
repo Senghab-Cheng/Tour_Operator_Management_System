@@ -1,4 +1,4 @@
- <!-- Navbar & Hero Start -->
+<!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
@@ -37,7 +37,16 @@
                 </a>
 
     </div>
-                <a href="https://htmlcodex.com/downloading/?item=2111" class="btn btn-primary rounded-pill py-2 px-4">Buy Pro Version</a>
+                @auth
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary rounded-pill py-2 px-4 me-2">Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary rounded-pill py-2 px-4">Log Out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill py-2 px-4 me-2">Sign In</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary rounded-pill py-2 px-4">Sign Up</a>
+                @endauth
             </div>
         </nav>
 
