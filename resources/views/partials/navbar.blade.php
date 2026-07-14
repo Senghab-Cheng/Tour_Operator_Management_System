@@ -31,6 +31,16 @@
                      Destination
                  </a>
 
+                <a href="{{ route('tour-packages.index') }}" 
+                    class="nav-item nav-link {{ request()->routeIs('tour-packages.*') ? 'active' : '' }}">
+                     Tours
+                 </a>
+
+                <a href="{{ route('tour-guides.index') }}" 
+                    class="nav-item nav-link {{ request()->routeIs('tour-guides.*') ? 'active' : '' }}">
+                     Guides
+                 </a>
+
                 <a href="{{ route('contact') }}" 
                     class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">
                     Contact

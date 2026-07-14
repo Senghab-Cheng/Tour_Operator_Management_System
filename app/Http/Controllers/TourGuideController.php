@@ -6,25 +6,40 @@ use App\Models\TourGuide;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TourGuideController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
-        $query = TourGuide::query()->withCount('tourSchedules');
+        $query = TourGuide::query()->withCount('tourSchedules')->active();
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
+        if ($request->user()?->isStaff() && $request->filled('status')) {
+            $query = TourGuide::query()->withCount('tourSchedules')->where('status', $request->status);
         }
 
-        return response()->json($query->latest()->paginate(15));
+        $guides = $query->latest()->paginate(12);
+
+        if ($request->wantsJson()) {
+            return response()->json($guides);
+        }
+
+        return view('tour-guides.index', compact('guides'));
     }
 
-    public function show(TourGuide $tourGuide): JsonResponse
+    public function show(Request $request, TourGuide $tourGuide): JsonResponse|View
     {
-        $tourGuide->load(['tourSchedules.tourPackage']);
+        $tourGuide->load([
+            'tourSchedules' => fn ($q) => $q->where('status', 'scheduled')
+                ->where('departure_date', '>=', now()->toDateString())
+                ->with('tourPackage'),
+        ]);
 
-        return response()->json($tourGuide);
+        if ($request->wantsJson()) {
+            return response()->json($tourGuide);
+        }
+
+        return view('tour-guides.show', compact('tourGuide'));
     }
 
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -34,6 +49,7 @@ class TourGuideController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
             'bio' => ['nullable', 'string'],
+            'skills' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'in:active,inactive'],
         ]);
@@ -42,7 +58,7 @@ class TourGuideController extends Controller
 
         $guide = TourGuide::create($validated);
 
-        return $this->respond($request, $guide, 201, null, 'Tour guide created.');
+        return $this->respond($request, $guide, 201, route('tour-guides.show', $guide), 'Tour guide created.');
     }
 
     public function update(Request $request, TourGuide $tourGuide): JsonResponse|RedirectResponse
@@ -52,6 +68,7 @@ class TourGuideController extends Controller
             'phone' => ['nullable', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
             'bio' => ['nullable', 'string'],
+            'skills' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'string', 'max:255'],
             'status' => ['sometimes', 'in:active,inactive'],
         ]);
@@ -65,6 +82,6 @@ class TourGuideController extends Controller
     {
         $tourGuide->delete();
 
-        return $this->respond($request, null, 204, null, 'Tour guide deleted.');
+        return $this->respond($request, null, 204, route('tour-guides.index'), 'Tour guide deleted.');
     }
 }

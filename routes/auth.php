@@ -43,7 +43,21 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+        $bookings = \App\Models\Booking::forUser($request->user()->id)
+            ->with('tourSchedule.tourPackage')
+            ->get();
+
+        $upcoming = $bookings
+            ->whereNotIn('status', ['cancelled', 'completed'])
+            ->sortBy(fn ($b) => $b->tourSchedule->departure_date)
+            ->first();
+
+        return view('dashboard', [
+            'totalBookings' => $bookings->count(),
+            'upcoming' => $upcoming,
+        ]);
+    })->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

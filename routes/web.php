@@ -8,6 +8,7 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\TourGuideController;
 use App\Http\Controllers\TourPackageController;
 use App\Http\Controllers\TourScheduleController;
+use App\Http\Controllers\TourScheduleCommentController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,9 @@ Route::prefix('tour-packages')->name('tour-packages.')->group(function () {
 Route::get('/tour-schedules', [TourScheduleController::class, 'index'])->name('tour-schedules.index');
 Route::get('/tour-schedules/{tourSchedule}', [TourScheduleController::class, 'show'])->name('tour-schedules.show');
 
+Route::get('/tour-guides', [TourGuideController::class, 'index'])->name('tour-guides.index');
+Route::get('/tour-guides/{tourGuide}', [TourGuideController::class, 'show'])->name('tour-guides.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
@@ -56,6 +60,9 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/tour-schedules', [TourScheduleController::class, 'store'])->name('tour-schedules.store');
     Route::put('/tour-schedules/{tourSchedule}', [TourScheduleController::class, 'update'])->name('tour-schedules.update');
     Route::delete('/tour-schedules/{tourSchedule}', [TourScheduleController::class, 'destroy'])->name('tour-schedules.destroy');
+
+    Route::get('/trips/{tourSchedule}', [TourScheduleController::class, 'trip'])->name('trips.show');
+    Route::post('/trips/{tourSchedule}/comments', [TourScheduleCommentController::class, 'store'])->name('trips.comments.store');
 
     Route::get('/tour-guides', [TourGuideController::class, 'index'])->name('tour-guides.index');
     Route::get('/tour-guides/{tourGuide}', [TourGuideController::class, 'show'])->name('tour-guides.show');
