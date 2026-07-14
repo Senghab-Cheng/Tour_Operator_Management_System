@@ -1,6 +1,10 @@
+@extends('layouts.front')
 
+<<<<<<< HEAD
 @extends('layouts.main')
 
+=======
+>>>>>>> a4f68fb08352033ce45da75bac33e0dd7d42f266
 @section('title', 'Contact')
 
 @section('content')

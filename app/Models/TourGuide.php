@@ -12,12 +12,22 @@ class TourGuide extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'phone', 'email', 'bio', 'photo', 'status',
+        'name', 'phone', 'email', 'bio', 'skills', 'photo', 'status',
     ];
 
     public function tourSchedules(): HasMany
     {
         return $this->hasMany(TourSchedule::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(TourScheduleComment::class);
+    }
+
+    public function skillList(): array
+    {
+        return $this->skills ? array_map('trim', explode(',', $this->skills)) : [];
     }
 
     public function scopeActive(Builder $query): Builder

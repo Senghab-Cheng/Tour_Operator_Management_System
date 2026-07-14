@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TourGuide;
 use App\Models\TourPackage;
 use App\Models\TourSchedule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TourScheduleController extends Controller
 {
@@ -111,5 +113,20 @@ class TourScheduleController extends Controller
         $tourSchedule->delete();
 
         return $this->respond($request, null, 204, null, 'Tour schedule deleted.');
+    }
+
+    public function trip(TourSchedule $tourSchedule): View
+    {
+        $tourSchedule->load([
+            'tourPackage',
+            'tourGuide',
+            'vehicle',
+            'bookings.user',
+            'comments' => fn ($q) => $q->latest()->with('postedBy'),
+        ]);
+
+        $guides = TourGuide::active()->orderBy('name')->get();
+
+        return view('trips.show', compact('tourSchedule', 'guides'));
     }
 }

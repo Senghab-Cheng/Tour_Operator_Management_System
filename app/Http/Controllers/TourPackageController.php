@@ -38,7 +38,7 @@ class TourPackageController extends Controller
             return response()->json($packages);
         }
 
-        return view('destination', compact('packages'));
+        return view('tour-packages.index', compact('packages'));
     }
 
     public function show(Request $request, TourPackage $tourPackage): JsonResponse|View
@@ -62,7 +62,7 @@ class TourPackageController extends Controller
             ]);
         }
 
-        return view('destination', compact('tourPackage'));
+        return view('tour-packages.show', compact('tourPackage'));
     }
 
     public function store(Request $request): JsonResponse|RedirectResponse
