@@ -1,7 +1,7 @@
 
-@extends('layouts.app')
+@extends('layouts.main')
 
-@section('title', 'About')
+@section('title', 'Contact')
 
 @section('content')
 <div class="container-fluid position-relative p-0">
