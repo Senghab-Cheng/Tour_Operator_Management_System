@@ -11,10 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
         $this->authorize('viewAny', Booking::class);
 
@@ -29,7 +30,13 @@ class BookingController extends Controller
             $query->forUser($request->user()->id);
         }
 
-        return response()->json($query->latest()->paginate(15));
+        $bookings = $query->latest()->paginate(15);
+
+        if ($request->wantsJson()) {
+            return response()->json($bookings);
+        }
+
+        return view('bookings.index', compact('bookings'));
     }
 
     public function show(Request $request, Booking $booking): JsonResponse
@@ -91,7 +98,7 @@ class BookingController extends Controller
             return $booking->load(['tourSchedule.tourPackage', 'payment']);
         });
 
-        return $this->respond($request, $booking, 201, null, 'Booking created successfully.');
+        return $this->respond($request, $booking, 201, route('bookings.index'), 'Booking created successfully.');
     }
 
     public function updateStatus(Request $request, Booking $booking): JsonResponse|RedirectResponse
