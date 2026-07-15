@@ -58,11 +58,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
-<<<<<<< HEAD
-            'engine' => 'InnoDB ROW_FORMAT=DYNAMIC',
-=======
             'engine' => 'InnoDB',
->>>>>>> a4f68fb08352033ce45da75bac33e0dd7d42f266
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
