@@ -41,7 +41,7 @@
     </div>
 
     <div class="mt-5">
-        {{ $guides->links() }}
+        {{ $guides->links('pagination::bootstrap-5') }}
     </div>
 </div>
 @endsection
