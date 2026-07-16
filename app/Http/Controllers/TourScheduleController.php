@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TourGuide;
 use App\Models\TourPackage;
 use App\Models\TourSchedule;
+use App\Models\Vehicle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\View\View;
 
 class TourScheduleController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
         $query = TourSchedule::query()
             ->with(['tourPackage', 'tourGuide', 'vehicle']);
@@ -38,7 +39,18 @@ class TourScheduleController extends Controller
                 ->where('departure_date', '>=', now()->toDateString());
         }
 
-        return response()->json($query->orderBy('departure_date')->paginate(15));
+        $schedules = $query->orderBy('departure_date')->paginate(15);
+
+        if ($request->wantsJson() || ! $request->routeIs('admin.*')) {
+            return response()->json($schedules);
+        }
+
+        return view('admin.tour-schedules.index', [
+            'schedules' => $schedules,
+            'packages' => TourPackage::query()->orderBy('title')->get(),
+            'guides' => TourGuide::active()->orderBy('name')->get(),
+            'vehicles' => Vehicle::query()->orderBy('plate_number')->get(),
+        ]);
     }
 
     public function byPackage(TourPackage $tourPackage): JsonResponse

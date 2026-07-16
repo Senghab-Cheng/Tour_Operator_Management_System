@@ -81,10 +81,10 @@
 .navbar-light .navbar-nav .nav-link {
     font-family: 'Nunito', sans-serif;
     position: relative;
-    margin-right: 25px;
+    margin-right: 16px;
     padding: 35px 0;
     color: #FFFFFF !important;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     outline: none;
     transition: .5s;
@@ -133,11 +133,29 @@
     .sticky-top.navbar-light .navbar-nav .nav-link {
         padding: 10px 0;
         margin-left: 0;
+        margin-right: 0;
         color: var(--dark) !important;
     }
 
     .navbar-light .navbar-brand img {
         max-height: 45px;
+    }
+
+    .navbar-light .navbar-collapse {
+        background: #FFFFFF;
+        padding: 12px 16px 16px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .navbar-light .navbar-nav .nav-link {
+        margin-right: 10px;
+        font-size: 15px;
+    }
+
+    .navbar .btn {
+        padding-left: .75rem !important;
+        padding-right: .75rem !important;
     }
 }
 

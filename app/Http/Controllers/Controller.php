@@ -17,6 +17,12 @@ abstract class Controller
             return response()->json($data, $status);
         }
 
-        return redirect($redirect ?? back())->with('success', $message);
+        $response = $redirect !== null ? redirect($redirect) : back();
+
+        if ($message !== null) {
+            $response = $response->with('success', $message);
+        }
+
+        return $response;
     }
 }

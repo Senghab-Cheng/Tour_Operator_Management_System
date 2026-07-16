@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
                         {{ __('My Bookings') }}
                     </x-nav-link>
+                    @if (Auth::user()?->isStaff())
+                        <x-nav-link :href="route('admin.tour-packages.index')" :active="request()->routeIs('admin.*')">
+                            {{ __('Admin') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -85,6 +90,11 @@
             <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
                 {{ __('My Bookings') }}
             </x-responsive-nav-link>
+            @if (Auth::user()?->isStaff())
+                <x-responsive-nav-link :href="route('admin.tour-packages.index')" :active="request()->routeIs('admin.*')">
+                    {{ __('Admin') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

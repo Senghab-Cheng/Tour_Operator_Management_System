@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\UserRole;
 use App\Models\Booking;
+use App\Models\Destination;
 use App\Models\ItineraryItem;
 use App\Models\TourGuide;
 use App\Models\TourPackage;
@@ -63,6 +64,17 @@ class TourOperatorSeeder extends Seeder
             'driver_phone' => '017 '.rand(100, 999).' '.rand(100, 999),
             'status' => 'available',
         ]));
+
+        $placeDestinations = [
+            ['name' => 'Siem Reap', 'discount' => '30% OFF', 'image_path' => 'img/destination-1.jpg'],
+            ['name' => 'Phnom Penh', 'discount' => '25% OFF', 'image_path' => 'img/destination-2.jpg'],
+            ['name' => 'Sihanoukville', 'discount' => '35% OFF', 'image_path' => 'img/destination-3.jpg'],
+            ['name' => 'Kampot', 'discount' => '20% OFF', 'image_path' => 'img/destination-4.jpg'],
+        ];
+
+        foreach ($placeDestinations as $place) {
+            Destination::updateOrCreate(['name' => $place['name']], $place);
+        }
 
         $destinations = [
             ['title' => 'Angkor Wat Sunrise Adventure', 'destination' => 'Siem Reap', 'days' => 3, 'nights' => 2, 'price' => 189],

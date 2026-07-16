@@ -4,6 +4,17 @@
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <a href="{{ route('auth.google') }}"
+       class="mb-5 inline-flex w-full items-center justify-center gap-3 rounded-md border border-trail-100 bg-white px-4 py-3 text-sm font-semibold text-trail-900 shadow-sm hover:bg-trail-50">
+        <span class="text-lg font-bold text-blue-600">G</span>
+        Continue with Google
+    </a>
+
+    <div class="relative mb-5">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-trail-100"></div></div>
+        <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-trail-900/50">Or sign in with email</span></div>
+    </div>
+
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
