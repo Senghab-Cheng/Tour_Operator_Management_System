@@ -32,10 +32,16 @@ class TourPackageController extends Controller
             });
         }
 
-        $packages = $query->latest()->paginate(12);
+        $packages = $query->latest()->paginate($request->routeIs('admin.*') ? 20 : 12);
 
         if ($request->wantsJson()) {
             return response()->json($packages);
+        }
+
+        if ($request->routeIs('admin.*')) {
+            $packages->load('itineraryItems');
+
+            return view('admin.tour-packages.index', compact('packages'));
         }
 
         return view('tour-packages.index', compact('packages'));
@@ -75,12 +81,15 @@ class TourPackageController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'duration_days' => ['required', 'integer', 'min:1'],
             'duration_nights' => ['required', 'integer', 'min:0'],
-            'cover_image' => ['nullable', 'string', 'max:255'],
+            'cover_image' => ['nullable', 'image', 'max:4096'],
+            'cover_image_path' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'in:active,inactive'],
         ]);
 
-        $validated['slug'] = $validated['slug'] ?? Str::slug($validated['title']);
+        $validated['slug'] = $this->uniqueSlug($validated['slug'] ?? $validated['title']);
         $validated['status'] = $validated['status'] ?? 'active';
+        $validated['cover_image'] = $this->imagePath($request, 'cover_image', $validated['cover_image_path'] ?? null);
+        unset($validated['cover_image_path']);
 
         $package = TourPackage::create($validated);
 
@@ -97,9 +106,21 @@ class TourPackageController extends Controller
             'price' => ['sometimes', 'numeric', 'min:0'],
             'duration_days' => ['sometimes', 'integer', 'min:1'],
             'duration_nights' => ['sometimes', 'integer', 'min:0'],
-            'cover_image' => ['nullable', 'string', 'max:255'],
+            'cover_image' => ['nullable', 'image', 'max:4096'],
+            'cover_image_path' => ['nullable', 'string', 'max:255'],
             'status' => ['sometimes', 'in:active,inactive'],
         ]);
+
+        if (isset($validated['slug'])) {
+            $validated['slug'] = $this->uniqueSlug($validated['slug'], $tourPackage->id);
+        }
+
+        $validated['cover_image'] = $this->imagePath(
+            $request,
+            'cover_image',
+            $validated['cover_image_path'] ?? $tourPackage->cover_image
+        );
+        unset($validated['cover_image_path']);
 
         $tourPackage->update($validated);
 
@@ -111,5 +132,30 @@ class TourPackageController extends Controller
         $tourPackage->delete();
 
         return $this->respond($request, null, 204, route('tour-packages.index'), 'Tour package deleted.');
+    }
+
+    private function imagePath(Request $request, string $field, ?string $fallback = null): ?string
+    {
+        if (! $request->hasFile($field)) {
+            return $fallback;
+        }
+
+        return 'storage/'.$request->file($field)->store('tour-packages', 'public');
+    }
+
+    private function uniqueSlug(string $value, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($value) ?: Str::random(8);
+        $slug = $base;
+        $count = 2;
+
+        while (TourPackage::query()
+            ->where('slug', $slug)
+            ->when($ignoreId, fn ($query) => $query->whereKeyNot($ignoreId))
+            ->exists()) {
+            $slug = $base.'-'.$count++;
+        }
+
+        return $slug;
     }
 }

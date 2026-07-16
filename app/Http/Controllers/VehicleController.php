@@ -6,10 +6,11 @@ use App\Models\Vehicle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class VehicleController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
         $query = Vehicle::query()->withCount('tourSchedules');
 
@@ -21,7 +22,13 @@ class VehicleController extends Controller
             $query->where('type', $request->type);
         }
 
-        return response()->json($query->latest()->paginate(15));
+        $vehicles = $query->latest()->paginate(15);
+
+        if ($request->wantsJson()) {
+            return response()->json($vehicles);
+        }
+
+        return view('admin.vehicles.index', compact('vehicles'));
     }
 
     public function show(Vehicle $vehicle): JsonResponse

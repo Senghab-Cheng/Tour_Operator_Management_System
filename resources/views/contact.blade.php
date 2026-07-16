@@ -26,19 +26,31 @@
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
-                <h1 class="mb-5">Contact For Any Query</h1>
+                <h1 class="mb-5">Get In Touch</h1>
             </div>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h5>Get In Touch</h5>
-                    <h6 class="mb-4">Receive messages instantly with our PHP and Ajax contact form - available in the <a href="https://htmlcodex.com/downloading/?item=2111">Pro Version</a> only.</h6>
+                    <h5>Send Us a Message</h5>
+                    <h6 class="mb-4">Have a question about a tour or want a custom itinerary? Send us a message and we'll get back to you within 24 hours.</h6>
                     <div class="d-flex align-items-center mb-4">
                         <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
                             <i class="fa fa-map-marker-alt text-white"></i>
                         </div>
                         <div class="ms-3">
                             <h5 class="text-primary">Office</h5>
-                            <p class="mb-0">123 Street, New York, USA</p>
+                            <p class="mb-0">Street 240, Phnom Penh, Cambodia</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-4">
@@ -47,7 +59,7 @@
                         </div>
                         <div class="ms-3">
                             <h5 class="text-primary">Mobile</h5>
-                            <p class="mb-0">+012 345 67890</p>
+                            <p class="mb-0">+855 12 345 678</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
@@ -56,40 +68,41 @@
                         </div>
                         <div class="ms-3">
                             <h5 class="text-primary">Email</h5>
-                            <p class="mb-0">info@example.com</p>
+                            <p class="mb-0">info@yourtouragency.com</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <iframe class="position-relative rounded w-100 h-100"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d729159.273558411!2d105.12822124622846!3d11.853168481411016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109513dc76a6be3%3A0x9c010ee85ab525bb!2sPhnom%20Penh!5e0!3m2!1sen!2skh!4v1784214380693!5m2!1sen!2skh"
                         frameborder="0" style="min-height: 300px; border:0;" allowfullscreen="" aria-hidden="false"
                         tabindex="0"></iframe>
                 </div>
                 <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                    <form>
+                    <form method="POST" action="{{ route('contact.store') }}">
+                        @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="Your Name" required>
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email" placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    <input type="text" name="subject" value="{{ old('subject') }}" class="form-control" id="subject" placeholder="Subject">
                                     <label for="subject">Subject</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                    <textarea name="message" class="form-control" placeholder="Leave a message here" id="message" style="height: 100px" required>{{ old('message') }}</textarea>
                                     <label for="message">Message</label>
                                 </div>
                             </div>

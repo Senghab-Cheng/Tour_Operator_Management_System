@@ -43,24 +43,21 @@
                 </h6>
 
                 <h1 class="mb-4">
-                    Welcome to <span class="text-primary">Tourist</span>
+                    Welcome to Our Tour Agency
                 </h1>
 
                 <p class="mb-4">
-                    Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.
-                    Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.
+                    We are a Cambodia-based tour operator sharing the culture, history, and natural beauty of our country with travelers from around the world.
                 </p>
 
                 <p class="mb-4">
-                    Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.
-                    Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit,
-                    sed stet lorem sit clita duo justo magna dolore erat amet.
+                    Our guides grew up in the places we tour — from Angkor Wat at sunrise to the riverside markets of Phnom Penh. We handle transport, accommodation, and logistics so you can focus on the experience.
                 </p>
 
                 <div class="row gy-2 gx-4 mb-4">
 
                     <div class="col-sm-6">
-                        <p><i class="fa fa-arrow-right text-primary me-2"></i>First Class Flights</p>
+                        <p><i class="fa fa-arrow-right text-primary me-2"></i>Licensed Local Guides</p>
                     </div>
 
                     <div class="col-sm-6">
@@ -68,15 +65,15 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <p><i class="fa fa-arrow-right text-primary me-2"></i>5 Star Accommodations</p>
+                        <p><i class="fa fa-arrow-right text-primary me-2"></i>Comfortable Accommodations</p>
                     </div>
 
                     <div class="col-sm-6">
-                        <p><i class="fa fa-arrow-right text-primary me-2"></i>Latest Model Vehicles</p>
+                        <p><i class="fa fa-arrow-right text-primary me-2"></i>Air-Conditioned Vehicles</p>
                     </div>
 
                     <div class="col-sm-6">
-                        <p><i class="fa fa-arrow-right text-primary me-2"></i>150 Premium City Tours</p>
+                        <p><i class="fa fa-arrow-right text-primary me-2"></i>150+ Happy Travelers</p>
                     </div>
 
                     <div class="col-sm-6">

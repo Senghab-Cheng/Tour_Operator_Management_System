@@ -1,22 +1,35 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\ItineraryItemController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\TourGuideController;
 use App\Http\Controllers\TourPackageController;
-use App\Http\Controllers\TourScheduleController;
 use App\Http\Controllers\TourScheduleCommentController;
+use App\Http\Controllers\TourScheduleController;
 use App\Http\Controllers\VehicleController;
+use App\Models\TourPackage;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'index')->name('home');
+Route::get('/', function () {
+    return view('index', [
+        'featuredPackages' => TourPackage::query()
+            ->active()
+            ->withCount('tourSchedules')
+            ->latest()
+            ->take(4)
+            ->get(),
+    ]);
+})->name('home');
 Route::view('/about', 'about')->name('about');
 Route::view('/services', 'service')->name('services');
-Route::view('/destination', 'destination')->name('destination');
+Route::get('/destination', [DestinationController::class, 'index'])->name('destination');
 Route::view('/contact', 'contact')->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 require __DIR__.'/auth.php';
 
@@ -48,6 +61,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(function () {
+    Route::redirect('/', '/admin/tour-packages')->name('dashboard');
+
+    Route::get('/tour-packages', [TourPackageController::class, 'index'])->name('tour-packages.index');
     Route::post('/tour-packages', [TourPackageController::class, 'store'])->name('tour-packages.store');
     Route::put('/tour-packages/{tourPackage}', [TourPackageController::class, 'update'])->name('tour-packages.update');
     Route::delete('/tour-packages/{tourPackage}', [TourPackageController::class, 'destroy'])->name('tour-packages.destroy');
@@ -69,6 +85,11 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/tour-guides', [TourGuideController::class, 'store'])->name('tour-guides.store');
     Route::put('/tour-guides/{tourGuide}', [TourGuideController::class, 'update'])->name('tour-guides.update');
     Route::delete('/tour-guides/{tourGuide}', [TourGuideController::class, 'destroy'])->name('tour-guides.destroy');
+
+    Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
+    Route::post('/destinations', [DestinationController::class, 'store'])->name('destinations.store');
+    Route::put('/destinations/{destination}', [DestinationController::class, 'update'])->name('destinations.update');
+    Route::delete('/destinations/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
 
     Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles.index');
     Route::get('/vehicles/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
