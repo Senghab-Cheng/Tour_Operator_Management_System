@@ -65,6 +65,11 @@ class TourPackageController extends Controller
         return view('tour-packages.show', compact('tourPackage'));
     }
 
+    public function create(): View
+    {
+        return view('tour-packages.create');
+    }
+
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
@@ -75,16 +80,27 @@ class TourPackageController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'duration_days' => ['required', 'integer', 'min:1'],
             'duration_nights' => ['required', 'integer', 'min:0'],
-            'cover_image' => ['nullable', 'string', 'max:255'],
+            'cover_image' => ['nullable', 'image', 'max:4096'],
             'status' => ['nullable', 'in:active,inactive'],
         ]);
 
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['title']);
         $validated['status'] = $validated['status'] ?? 'active';
 
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = 'storage/'.$request->file('cover_image')->store('packages', 'public');
+        } else {
+            unset($validated['cover_image']);
+        }
+
         $package = TourPackage::create($validated);
 
         return $this->respond($request, $package, 201, route('tour-packages.show', $package), 'Tour package created.');
+    }
+
+    public function edit(TourPackage $tourPackage): View
+    {
+        return view('tour-packages.edit', compact('tourPackage'));
     }
 
     public function update(Request $request, TourPackage $tourPackage): JsonResponse|RedirectResponse
@@ -97,13 +113,19 @@ class TourPackageController extends Controller
             'price' => ['sometimes', 'numeric', 'min:0'],
             'duration_days' => ['sometimes', 'integer', 'min:1'],
             'duration_nights' => ['sometimes', 'integer', 'min:0'],
-            'cover_image' => ['nullable', 'string', 'max:255'],
+            'cover_image' => ['nullable', 'image', 'max:4096'],
             'status' => ['sometimes', 'in:active,inactive'],
         ]);
 
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = 'storage/'.$request->file('cover_image')->store('packages', 'public');
+        } else {
+            unset($validated['cover_image']);
+        }
+
         $tourPackage->update($validated);
 
-        return $this->respond($request, $tourPackage->fresh(), 200, null, 'Tour package updated.');
+        return $this->respond($request, $tourPackage->fresh(), 200, route('tour-packages.show', $tourPackage), 'Tour package updated.');
     }
 
     public function destroy(Request $request, TourPackage $tourPackage): JsonResponse|RedirectResponse

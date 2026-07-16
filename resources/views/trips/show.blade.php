@@ -1,12 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $tourSchedule->tourPackage->title }} &mdash; {{ $tourSchedule->departure_date->format('M j, Y') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
+    <div class="py-10">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <div class="bg-trail-900 rounded-2xl p-8 text-white relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-trail-500/10"></div>
+                <p class="text-trail-400 text-xs uppercase tracking-widest mb-2">Trip Detail</p>
+                <h3 class="font-display text-3xl mb-1">{{ $tourSchedule->tourPackage->title }}</h3>
+                <p class="text-trail-100/70 text-sm">{{ $tourSchedule->departure_date->format('D, M j, Y') }}</p>
+            </div>
 
             @if (session('success'))
                 <div class="p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg text-sm">
@@ -15,7 +16,7 @@
             @endif
 
             {{-- Trip summary --}}
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm sm:rounded-2xl p-6">
                 <div class="grid sm:grid-cols-3 gap-4 text-sm mb-4">
                     <div>
                         <p class="text-gray-400">Status</p>
@@ -65,7 +66,7 @@
             </div>
 
             {{-- Roster --}}
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm sm:rounded-2xl p-6">
                 <h3 class="font-semibold text-gray-900 mb-4">Traveler Roster</h3>
                 <div class="divide-y divide-gray-100">
                     @forelse ($tourSchedule->bookings as $booking)
@@ -83,7 +84,7 @@
             </div>
 
             {{-- Guide comments --}}
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm sm:rounded-2xl p-6">
                 <h3 class="font-semibold text-gray-900 mb-4">Comments from Tour Guide</h3>
 
                 <div class="space-y-4 mb-6">

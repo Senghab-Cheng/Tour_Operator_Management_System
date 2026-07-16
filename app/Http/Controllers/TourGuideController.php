@@ -42,6 +42,11 @@ class TourGuideController extends Controller
         return view('tour-guides.show', compact('tourGuide'));
     }
 
+    public function create(): View
+    {
+        return view('tour-guides.create');
+    }
+
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
@@ -50,15 +55,26 @@ class TourGuideController extends Controller
             'email' => ['nullable', 'email', 'max:255'],
             'bio' => ['nullable', 'string'],
             'skills' => ['nullable', 'string', 'max:255'],
-            'photo' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'max:4096'],
             'status' => ['nullable', 'in:active,inactive'],
         ]);
 
         $validated['status'] = $validated['status'] ?? 'active';
 
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = 'storage/'.$request->file('photo')->store('guides', 'public');
+        } else {
+            unset($validated['photo']);
+        }
+
         $guide = TourGuide::create($validated);
 
         return $this->respond($request, $guide, 201, route('tour-guides.show', $guide), 'Tour guide created.');
+    }
+
+    public function edit(TourGuide $tourGuide): View
+    {
+        return view('tour-guides.edit', compact('tourGuide'));
     }
 
     public function update(Request $request, TourGuide $tourGuide): JsonResponse|RedirectResponse
@@ -69,13 +85,19 @@ class TourGuideController extends Controller
             'email' => ['nullable', 'email', 'max:255'],
             'bio' => ['nullable', 'string'],
             'skills' => ['nullable', 'string', 'max:255'],
-            'photo' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'max:4096'],
             'status' => ['sometimes', 'in:active,inactive'],
         ]);
 
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = 'storage/'.$request->file('photo')->store('guides', 'public');
+        } else {
+            unset($validated['photo']);
+        }
+
         $tourGuide->update($validated);
 
-        return $this->respond($request, $tourGuide->fresh(), 200, null, 'Tour guide updated.');
+        return $this->respond($request, $tourGuide->fresh(), 200, route('tour-guides.show', $tourGuide), 'Tour guide updated.');
     }
 
     public function destroy(Request $request, TourGuide $tourGuide): JsonResponse|RedirectResponse

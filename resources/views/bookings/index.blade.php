@@ -1,21 +1,22 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('My Bookings') }}
-        </h2>
-    </x-slot>
+    <div class="py-10">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-    <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-trail-900 rounded-2xl p-8 text-white relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-trail-500/10"></div>
+                <p class="text-trail-400 text-xs uppercase tracking-widest mb-2">Your trips</p>
+                <h3 class="font-display text-3xl mb-1">My Bookings</h3>
+                <p class="text-trail-100/70 text-sm">Track upcoming trips and leave feedback once you're back.</p>
+            </div>
 
             @if (session('success'))
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg text-sm">
+                <div class="p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl text-sm">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg text-sm">
+                <div class="p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl text-sm">
                     <ul class="list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -24,13 +25,19 @@
                 </div>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg divide-y divide-gray-100">
+            <div class="space-y-4">
                 @forelse ($bookings as $booking)
-                    <div class="p-6">
+                    <div @class([
+                        'bg-white rounded-2xl shadow-sm border-l-4 p-6',
+                        'border-yellow-400' => $booking->status === 'pending',
+                        'border-trail-500' => $booking->status === 'confirmed',
+                        'border-gray-300' => $booking->status === 'cancelled',
+                        'border-blue-400' => $booking->status === 'completed',
+                    ])>
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div>
                                 <p class="text-xs text-gray-400 mb-1">{{ $booking->booking_code }}</p>
-                                <h3 class="font-semibold text-gray-900">
+                                <h3 class="font-semibold text-trail-900">
                                     {{ $booking->tourSchedule->tourPackage->title }}
                                 </h3>
                                 <p class="text-sm text-gray-500">
@@ -44,7 +51,7 @@
                                 <span @class([
                                     'px-3 py-1 rounded-full text-xs font-medium',
                                     'bg-yellow-100 text-yellow-800' => $booking->status === 'pending',
-                                    'bg-green-100 text-green-800' => $booking->status === 'confirmed',
+                                    'bg-trail-100 text-trail-700' => $booking->status === 'confirmed',
                                     'bg-gray-100 text-gray-600' => $booking->status === 'cancelled',
                                     'bg-blue-100 text-blue-800' => $booking->status === 'completed',
                                 ])>
@@ -64,11 +71,10 @@
                             </div>
                         </div>
 
-                        {{-- Review section, only for completed trips --}}
                         @if ($booking->status === 'completed')
                             <div class="mt-4 pt-4 border-t border-gray-100">
                                 @if ($booking->review)
-                                    <div class="bg-trail-50/60 rounded-lg p-4">
+                                    <div class="bg-trail-50/60 rounded-xl p-4">
                                         <p class="text-trail-500 text-sm mb-1">
                                             {{ str_repeat('★', $booking->review->rating) }}{{ str_repeat('☆', 5 - $booking->review->rating) }}
                                         </p>
@@ -117,7 +123,7 @@
                         @endif
                     </div>
                 @empty
-                    <div class="p-10 text-center">
+                    <div class="bg-white rounded-2xl shadow-sm p-10 text-center">
                         <p class="text-gray-500 mb-4">You haven't booked a trip yet.</p>
                         <a href="{{ route('tour-packages.index') }}"
                            class="inline-flex items-center px-4 py-2 bg-trail-500 text-white text-sm font-semibold rounded-full hover:bg-trail-600">
@@ -127,7 +133,7 @@
                 @endforelse
             </div>
 
-            <div class="mt-6">
+            <div>
                 {{ $bookings->links() }}
             </div>
         </div>

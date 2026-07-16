@@ -16,6 +16,14 @@ use Illuminate\Support\Str;
 
 class TourOperatorSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * Creates one Admin account and one Staff account so you have
+     * somewhere to log in immediately, plus sample tour data.
+     *
+     * IMPORTANT: change these passwords after first login.
+     */
     public function run(): void
     {
         User::updateOrCreate(
@@ -41,28 +49,32 @@ class TourOperatorSeeder extends Seeder
             ['name' => 'Dara Meas', 'skills' => 'Hiking, Wildlife, Khmer'],
             ['name' => 'Vanna Sok', 'skills' => 'Photography, French, Diving'],
             ['name' => 'Bopha Ly', 'skills' => 'Cooking, Culture, English'],
-        ])->map(fn ($g) => TourGuide::create([
-            'name' => $g['name'],
-            'phone' => '012 '.rand(100, 999).' '.rand(100, 999),
-            'email' => Str::slug($g['name']).'@tourist.test',
-            'bio' => "{$g['name']} has been guiding travelers around Cambodia for over 5 years, sharing local stories and hidden gems along the way.",
-            'skills' => $g['skills'],
-            'status' => 'active',
-        ]));
+        ])->map(fn ($g) => TourGuide::firstOrCreate(
+            ['email' => Str::slug($g['name']).'@tourist.test'],
+            [
+                'name' => $g['name'],
+                'phone' => '012 '.rand(100, 999).' '.rand(100, 999),
+                'bio' => "{$g['name']} has been guiding travelers around Cambodia for over 5 years, sharing local stories and hidden gems along the way.",
+                'skills' => $g['skills'],
+                'status' => 'active',
+            ]
+        ));
 
         $vehicles = collect([
             ['type' => 'van', 'capacity' => 12],
             ['type' => 'car', 'capacity' => 4],
             ['type' => 'bus', 'capacity' => 30],
             ['type' => 'tuktuk', 'capacity' => 3],
-        ])->map(fn ($v, $i) => Vehicle::create([
-            'type' => $v['type'],
-            'plate_number' => 'PP-'.(1000 + $i),
-            'capacity' => $v['capacity'],
-            'driver_name' => 'Driver '.chr(65 + $i),
-            'driver_phone' => '017 '.rand(100, 999).' '.rand(100, 999),
-            'status' => 'available',
-        ]));
+        ])->map(fn ($v, $i) => Vehicle::firstOrCreate(
+            ['plate_number' => 'PP-'.(1000 + $i)],
+            [
+                'type' => $v['type'],
+                'capacity' => $v['capacity'],
+                'driver_name' => 'Driver '.chr(65 + $i),
+                'driver_phone' => '017 '.rand(100, 999).' '.rand(100, 999),
+                'status' => 'available',
+            ]
+        ));
 
         $destinations = [
             ['title' => 'Angkor Wat Sunrise Adventure', 'destination' => 'Siem Reap', 'days' => 3, 'nights' => 2, 'price' => 189],
@@ -84,17 +96,24 @@ class TourOperatorSeeder extends Seeder
         $images = ['destination-1.jpg', 'destination-2.jpg', 'destination-3.jpg', 'destination-4.jpg'];
 
         foreach ($destinations as $i => $d) {
-            $package = TourPackage::create([
-                'title' => $d['title'],
-                'slug' => Str::slug($d['title']),
-                'destination' => $d['destination'],
-                'description' => "Discover {$d['destination']} on this {$d['days']}-day journey. Enjoy guided sightseeing, local cuisine, and unforgettable experiences with our expert local guides.",
-                'price' => $d['price'],
-                'duration_days' => $d['days'],
-                'duration_nights' => $d['nights'],
-                'cover_image' => 'img/'.$images[$i % count($images)],
-                'status' => 'active',
-            ]);
+            $package = TourPackage::firstOrCreate(
+                ['slug' => Str::slug($d['title'])],
+                [
+                    'title' => $d['title'],
+                    'destination' => $d['destination'],
+                    'description' => "Discover {$d['destination']} on this {$d['days']}-day journey. Enjoy guided sightseeing, local cuisine, and unforgettable experiences with our expert local guides.",
+                    'price' => $d['price'],
+                    'duration_days' => $d['days'],
+                    'duration_nights' => $d['nights'],
+                    'cover_image' => 'img/'.$images[$i % count($images)],
+                    'status' => 'active',
+                ]
+            );
+
+            // Skip itinerary/schedule seeding if this tour already existed from a previous run.
+            if (! $package->wasRecentlyCreated) {
+                continue;
+            }
 
             for ($day = 1; $day <= max($d['days'], 1); $day++) {
                 ItineraryItem::create([
@@ -121,8 +140,8 @@ class TourOperatorSeeder extends Seeder
             }
         }
 
-        // Sample booking for the default test user, if present
-        if ($user = User::where('email', 'test@example.com')->first()) {
+        // Sample booking for the default test user, if present and not already created
+        if (($user = User::where('email', 'test@example.com')->first()) && ! Booking::where('user_id', $user->id)->exists()) {
             $schedule = TourSchedule::first();
 
             Booking::create([
