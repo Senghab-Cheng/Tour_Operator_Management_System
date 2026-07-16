@@ -43,6 +43,11 @@ class TourSchedule extends Model
         return $this->hasMany(Booking::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(TourScheduleComment::class);
+    }
+
     public function seatsAvailable(): int
     {
         return $this->max_seats - $this->seats_booked;

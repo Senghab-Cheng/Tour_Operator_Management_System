@@ -62,6 +62,7 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/tour-schedules/{tourSchedule}', [TourScheduleController::class, 'destroy'])->name('tour-schedules.destroy');
 
     Route::get('/trips/{tourSchedule}', [TourScheduleController::class, 'trip'])->name('trips.show');
+    Route::patch('/trips/{tourSchedule}/status', [TourScheduleController::class, 'updateTripStatus'])->name('trips.status');
     Route::post('/trips/{tourSchedule}/comments', [TourScheduleCommentController::class, 'store'])->name('trips.comments.store');
 
     Route::get('/tour-guides', [TourGuideController::class, 'index'])->name('tour-guides.index');

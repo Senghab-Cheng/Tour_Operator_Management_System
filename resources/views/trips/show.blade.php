@@ -15,18 +15,52 @@
             @endif
 
             {{-- Trip summary --}}
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 grid sm:grid-cols-3 gap-4 text-sm">
-                <div>
-                    <p class="text-gray-400">Status</p>
-                    <p class="font-medium text-gray-900">{{ ucfirst($tourSchedule->status) }}</p>
+            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="grid sm:grid-cols-3 gap-4 text-sm mb-4">
+                    <div>
+                        <p class="text-gray-400">Status</p>
+                        <p class="font-medium text-gray-900">{{ ucfirst($tourSchedule->status) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Guide</p>
+                        <p class="font-medium text-gray-900">{{ $tourSchedule->tourGuide->name ?? 'Unassigned' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Seats</p>
+                        <p class="font-medium text-gray-900">{{ $tourSchedule->seats_booked }} / {{ $tourSchedule->max_seats }} booked</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-gray-400">Guide</p>
-                    <p class="font-medium text-gray-900">{{ $tourSchedule->tourGuide->name ?? 'Unassigned' }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-400">Seats</p>
-                    <p class="font-medium text-gray-900">{{ $tourSchedule->seats_booked }} / {{ $tourSchedule->max_seats }} booked</p>
+
+                <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                    @if ($tourSchedule->status === 'scheduled')
+                        <form method="POST" action="{{ route('admin.trips.status', $tourSchedule) }}">
+                            @csrf @method('PATCH')
+                            <input type="hidden" name="status" value="ongoing">
+                            <button type="submit" class="px-4 py-2 bg-trail-500 text-white text-sm font-semibold rounded-full hover:bg-trail-600">
+                                Start Trip
+                            </button>
+                        </form>
+                    @endif
+
+                    @if (in_array($tourSchedule->status, ['scheduled', 'ongoing']))
+                        <form method="POST" action="{{ route('admin.trips.status', $tourSchedule) }}"
+                              onsubmit="return confirm('Mark this trip as completed? All active bookings will be closed and travelers can leave reviews.');">
+                            @csrf @method('PATCH')
+                            <input type="hidden" name="status" value="completed">
+                            <button type="submit" class="px-4 py-2 bg-trail-900 text-white text-sm font-semibold rounded-full hover:bg-black">
+                                Mark Trip Completed
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{{ route('admin.trips.status', $tourSchedule) }}"
+                              onsubmit="return confirm('Cancel this trip?');">
+                            @csrf @method('PATCH')
+                            <input type="hidden" name="status" value="cancelled">
+                            <button type="submit" class="px-4 py-2 bg-white border border-red-200 text-red-600 text-sm font-semibold rounded-full hover:bg-red-50">
+                                Cancel Trip
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
 
