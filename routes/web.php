@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItineraryItemController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReviewController;
@@ -22,6 +23,10 @@ require __DIR__.'/auth.php';
 
 Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::prefix('tour-packages')->name('tour-packages.')->group(function () {
     Route::get('/', [TourPackageController::class, 'index'])->name('index');
