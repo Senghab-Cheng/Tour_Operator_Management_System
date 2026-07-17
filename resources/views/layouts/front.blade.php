@@ -38,7 +38,9 @@
 
     @include('partials.navbar')
 
-    @yield('content')
+    <div class="mt-5 pt-5">
+        @yield('content')
+    </div>
 
     @include('partials.footer')
 
