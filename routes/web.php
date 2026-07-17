@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/tour-packages/create', [TourPackageController::class, 'create'])->name('tour-packages.create');
+    Route::get('/tour-packages/{tourPackage}/edit', [TourPackageController::class, 'edit'])->name('tour-packages.edit');
     Route::post('/tour-packages', [TourPackageController::class, 'store'])->name('tour-packages.store');
     Route::put('/tour-packages/{tourPackage}', [TourPackageController::class, 'update'])->name('tour-packages.update');
     Route::delete('/tour-packages/{tourPackage}', [TourPackageController::class, 'destroy'])->name('tour-packages.destroy');
@@ -67,8 +69,11 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/tour-schedules/{tourSchedule}', [TourScheduleController::class, 'destroy'])->name('tour-schedules.destroy');
 
     Route::get('/trips/{tourSchedule}', [TourScheduleController::class, 'trip'])->name('trips.show');
+    Route::patch('/trips/{tourSchedule}/status', [TourScheduleController::class, 'updateTripStatus'])->name('trips.status');
     Route::post('/trips/{tourSchedule}/comments', [TourScheduleCommentController::class, 'store'])->name('trips.comments.store');
 
+    Route::get('/tour-guides/create', [TourGuideController::class, 'create'])->name('tour-guides.create');
+    Route::get('/tour-guides/{tourGuide}/edit', [TourGuideController::class, 'edit'])->name('tour-guides.edit');
     Route::get('/tour-guides', [TourGuideController::class, 'index'])->name('tour-guides.index');
     Route::get('/tour-guides/{tourGuide}', [TourGuideController::class, 'show'])->name('tour-guides.show');
     Route::post('/tour-guides', [TourGuideController::class, 'store'])->name('tour-guides.store');

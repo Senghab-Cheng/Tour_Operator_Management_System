@@ -14,6 +14,13 @@
                 @if ($tourGuide->email)<i class="fa fa-envelope me-1"></i>{{ $tourGuide->email }}<br>@endif
                 @if ($tourGuide->phone)<i class="fa fa-phone-alt me-1"></i>{{ $tourGuide->phone }}@endif
             </p>
+            @auth
+                @if (Auth::user()->isStaff())
+                    <a href="{{ route('admin.tour-guides.edit', $tourGuide) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3 mb-3">
+                        <i class="fa fa-pen me-1"></i>Edit Guide
+                    </a>
+                @endif
+            @endauth
             <div>
                 @foreach ($tourGuide->skillList() as $skill)
                     <span class="badge bg-primary rounded-pill me-1 mb-1">{{ $skill }}</span>
@@ -42,4 +49,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

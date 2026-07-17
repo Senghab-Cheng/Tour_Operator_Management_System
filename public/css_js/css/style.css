@@ -97,7 +97,16 @@
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
+    color: #FFFFFF !important;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+}
+
+.sticky-top.navbar-light .navbar-nav .nav-link:hover,
+.sticky-top.navbar-light .navbar-nav .nav-link.active {
     color: var(--primary) !important;
+    text-decoration: none;
 }
 
 .navbar-light .navbar-brand img {
@@ -154,8 +163,12 @@
         height: 2px;
         bottom: -1px;
         left: 50%;
-        background: var(--primary);
+        background: #FFFFFF;
         transition: .5s;
+    }
+
+    .sticky-top.navbar-light .navbar-nav .nav-link::before {
+        background: var(--primary);
     }
 
     .navbar-light .navbar-nav .nav-link:hover::before,

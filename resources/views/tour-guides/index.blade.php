@@ -9,6 +9,13 @@
             <div class="col-lg-8 text-center">
                 <h1 class="text-white mb-2">Meet Our Tour Guides</h1>
                 <p class="text-white-50 mb-0">Experienced locals ready to show you around.</p>
+                @auth
+                    @if (Auth::user()->isStaff())
+                        <a href="{{ route('admin.tour-guides.create') }}" class="btn btn-light rounded-pill px-4 mt-3">
+                            <i class="fa fa-plus me-2"></i>Add Guide
+                        </a>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>

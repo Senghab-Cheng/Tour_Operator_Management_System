@@ -9,6 +9,13 @@
             <div class="col-lg-8 text-center">
                 <h1 class="text-white mb-2">{{ $tourPackage->title }}</h1>
                 <p class="text-white-50 mb-0"><i class="fa fa-map-marker-alt me-2"></i>{{ $tourPackage->destination }}</p>
+                @auth
+                    @if (Auth::user()->isStaff())
+                        <a href="{{ route('admin.tour-packages.edit', $tourPackage) }}" class="btn btn-light rounded-pill px-4 mt-3">
+                            <i class="fa fa-pen me-2"></i>Edit Tour
+                        </a>
+                    @endif
+                @endauth
             </div>
         </div>
     </div>

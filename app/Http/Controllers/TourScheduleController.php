@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class TourScheduleController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse|View
     {
         $query = TourSchedule::query()
             ->with(['tourPackage', 'tourGuide', 'vehicle']);
@@ -38,7 +38,13 @@ class TourScheduleController extends Controller
                 ->where('departure_date', '>=', now()->toDateString());
         }
 
-        return response()->json($query->orderBy('departure_date')->paginate(15));
+        $schedules = $query->orderBy('departure_date')->paginate(15);
+
+        if ($request->wantsJson()) {
+            return response()->json($schedules);
+        }
+
+        return view('trips.index', ['schedules' => $schedules]);
     }
 
     public function byPackage(TourPackage $tourPackage): JsonResponse
@@ -128,5 +134,24 @@ class TourScheduleController extends Controller
         $guides = TourGuide::active()->orderBy('name')->get();
 
         return view('trips.show', compact('tourSchedule', 'guides'));
+    }
+
+    public function updateTripStatus(Request $request, TourSchedule $tourSchedule): RedirectResponse
+    {
+        $validated = $request->validate([
+            'status' => ['required', 'in:scheduled,ongoing,completed,cancelled'],
+        ]);
+
+        $tourSchedule->update(['status' => $validated['status']]);
+
+        // When a trip is marked completed, close out its active bookings too
+        // so travelers can leave reviews.
+        if ($validated['status'] === 'completed') {
+            $tourSchedule->bookings()
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->update(['status' => 'completed']);
+        }
+
+        return back()->with('success', 'Trip status updated to '.$validated['status'].'.');
     }
 }
