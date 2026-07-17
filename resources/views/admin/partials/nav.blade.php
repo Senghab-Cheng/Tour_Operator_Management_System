@@ -1,24 +1,20 @@
-<nav class="admin-card p-3" aria-label="Admin sections">
-    <div class="flex flex-wrap gap-2">
-        <a href="{{ route('admin.tour-packages.index') }}"
-           class="admin-tab {{ request()->routeIs('admin.tour-packages.*') ? 'admin-tab-active' : 'admin-tab-inactive' }}">
-            Tours
-        </a>
-        <a href="{{ route('admin.tour-guides.index') }}"
-           class="admin-tab {{ request()->routeIs('admin.tour-guides.*') ? 'admin-tab-active' : 'admin-tab-inactive' }}">
-            Guides
-        </a>
-        <a href="{{ route('admin.destinations.index') }}"
-           class="admin-tab {{ request()->routeIs('admin.destinations.*') ? 'admin-tab-active' : 'admin-tab-inactive' }}">
-            Destinations
-        </a>
-        <a href="{{ route('admin.tour-schedules.index') }}"
-           class="admin-tab {{ request()->routeIs('admin.tour-schedules.*') ? 'admin-tab-active' : 'admin-tab-inactive' }}">
-            Schedules
-        </a>
-        <a href="{{ route('admin.vehicles.index') }}"
-           class="admin-tab {{ request()->routeIs('admin.vehicles.*') ? 'admin-tab-active' : 'admin-tab-inactive' }}">
-            Vehicles
-        </a>
+<div class="card p-3 mb-4">
+    <div class="d-flex flex-wrap gap-2">
+        @php
+            $links = [
+                ['route' => 'admin.tour-packages.index', 'label' => 'Tours'],
+                ['route' => 'admin.tour-guides.index', 'label' => 'Guides'],
+                ['route' => 'admin.destinations.index', 'label' => 'Destinations'],
+                ['route' => 'admin.tour-schedules.index', 'label' => 'Schedules'],
+                ['route' => 'admin.vehicles.index', 'label' => 'Vehicles'],
+                ['route' => 'admin.bookings.index', 'label' => 'Bookings'],
+            ];
+        @endphp
+        @foreach ($links as $link)
+            <a href="{{ route($link['route']) }}"
+               class="btn {{ request()->routeIs(str_replace('.index', '.*', $link['route'])) ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill px-4">
+                {{ $link['label'] }}
+            </a>
+        @endforeach
     </div>
-</nav>
+</div>
