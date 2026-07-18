@@ -83,7 +83,7 @@ class BookingController extends Controller
                 'tour_schedule_id' => $schedule->id,
                 'number_of_people' => $validated['number_of_people'],
                 'total_price' => $totalPrice,
-                'status' => 'pending',
+                'status' => 'confirmed',
             ]);
 
             $schedule->increment('seats_booked', $validated['number_of_people']);
@@ -92,7 +92,7 @@ class BookingController extends Controller
                 'booking_id' => $booking->id,
                 'amount' => $totalPrice,
                 'method' => 'cash',
-                'status' => 'pending',
+                'status' => 'paid',
             ]);
 
             return $booking->load(['tourSchedule.tourPackage', 'payment']);
