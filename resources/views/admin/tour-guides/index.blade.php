@@ -1,79 +1,74 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Manage Tour Guides</h2>
-    </x-slot>
+@extends('layouts.front')
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin.partials.nav')
-            @include('admin.partials.alerts')
+@section('title', 'Manage Tour Guides')
 
-            <section class="admin-card p-6">
-                <h3 class="admin-section-title">Add Tour Guide</h3>
-                <form method="POST" action="{{ route('admin.tour-guides.store') }}" enctype="multipart/form-data" class="grid md:grid-cols-2 gap-4">
-                    @csrf
-                    <input name="name" value="{{ old('name') }}" class="admin-input" placeholder="Guide name" required>
-                    <input name="email" value="{{ old('email') }}" type="email" class="admin-input" placeholder="Email">
-                    <input name="phone" value="{{ old('phone') }}" class="admin-input" placeholder="Phone">
-                    <input name="skills" value="{{ old('skills') }}" class="admin-input" placeholder="Skills, comma separated">
-                    <div>
-                        <label class="admin-label">Profile photo</label>
-                        <input name="photo" type="file" accept="image/*" class="admin-input file:mr-3 file:rounded-md file:border-0 file:bg-trail-500 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white">
-                    </div>
-                    <select name="status" class="admin-input">
+@section('content')
+    <div class="container py-5">
+        <h2 class="mb-4">Manage Tour Guides</h2>
+
+        @include('admin.partials.nav')
+        @include('admin.partials.alerts')
+
+        <div class="card p-4 mb-4">
+            <h3 class="h5 mb-3">Add Tour Guide</h3>
+            <form method="POST" action="{{ route('admin.tour-guides.store') }}" enctype="multipart/form-data" class="row g-3">
+                @csrf
+                <div class="col-md-6"><input name="name" value="{{ old('name') }}" class="form-control" placeholder="Guide name" required></div>
+                <div class="col-md-6"><input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="Email"></div>
+                <div class="col-md-6"><input name="phone" value="{{ old('phone') }}" class="form-control" placeholder="Phone"></div>
+                <div class="col-md-6"><input name="skills" value="{{ old('skills') }}" class="form-control" placeholder="Skills, comma separated"></div>
+                <div class="col-md-12">
+                    <label class="form-label">Profile photo</label>
+                    <input name="photo" type="file" accept="image/*" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <select name="status" class="form-control">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
-                    <input name="photo_path" value="{{ old('photo_path') }}" class="admin-input md:col-span-2" placeholder="Or image path, e.g. img/about.jpg">
-                    <textarea name="bio" class="md:col-span-2 admin-input" rows="4" placeholder="Bio">{{ old('bio') }}</textarea>
-                    <div class="md:col-span-2">
-                        <button type="submit" class="admin-btn-primary">Save Guide</button>
-                    </div>
-                </form>
-            </section>
+                </div>
+                <div class="col-md-12"><input name="photo_path" value="{{ old('photo_path') }}" class="form-control" placeholder="Or image path, e.g. img/touristInCam.jpeg"></div>
+                <div class="col-md-12"><textarea name="bio" class="form-control" rows="4" placeholder="Bio">{{ old('bio') }}</textarea></div>
+                <div class="col-md-12"><button type="submit" class="btn btn-primary">Save Guide</button></div>
+            </form>
+        </div>
 
-            <section class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-                @forelse ($guides as $guide)
-                    <div class="admin-card p-5">
-                        <div class="flex items-center gap-4 mb-4">
-                            <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/about.jpg') }}" class="w-16 h-16 rounded-full object-cover border-2 border-trail-200" alt="{{ $guide->name }}">
+        <div class="row g-4">
+            @forelse ($guides as $guide)
+                <div class="col-md-4">
+                    <div class="card h-100 p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/touristInCam.jpeg') }}" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" alt="{{ $guide->name }}">
                             <div>
-                                <h4 class="font-semibold text-gray-900">{{ $guide->name }}</h4>
-                                <p class="text-sm text-gray-500">{{ $guide->status }} · {{ $guide->tour_schedules_count }} trips</p>
+                                <h4 class="h6 mb-0">{{ $guide->name }}</h4>
+                                <small class="text-muted">{{ $guide->status }} · {{ $guide->tour_schedules_count }} trips</small>
                             </div>
                         </div>
 
                         <details>
-                            <summary class="admin-summary">Edit Guide</summary>
-                            <form method="POST" action="{{ route('admin.tour-guides.update', $guide) }}" enctype="multipart/form-data" class="grid gap-3 mt-4">
+                            <summary class="btn btn-sm btn-outline-primary mb-3">Edit Guide</summary>
+                            <form method="POST" action="{{ route('admin.tour-guides.update', $guide) }}" enctype="multipart/form-data" class="row g-2">
                                 @csrf
                                 @method('PUT')
-                                <input name="name" value="{{ old('name', $guide->name) }}" class="admin-input" required>
-                                <input name="email" value="{{ old('email', $guide->email) }}" type="email" class="admin-input" placeholder="Email">
-                                <input name="phone" value="{{ old('phone', $guide->phone) }}" class="admin-input" placeholder="Phone">
-                                <input name="skills" value="{{ old('skills', $guide->skills) }}" class="admin-input" placeholder="Skills">
-                                <input name="photo" type="file" accept="image/*" class="admin-input file:mr-3 file:rounded-md file:border-0 file:bg-trail-500 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white">
-                                <input name="photo_path" value="{{ old('photo_path', $guide->photo) }}" class="admin-input" placeholder="Existing image path">
-                                <select name="status" class="admin-input">
-                                    <option value="active" @selected($guide->status === 'active')>Active</option>
-                                    <option value="inactive" @selected($guide->status === 'inactive')>Inactive</option>
-                                </select>
-                                <textarea name="bio" class="admin-input" rows="4">{{ old('bio', $guide->bio) }}</textarea>
-                                <button type="submit" class="admin-btn-primary">Update Guide</button>
+                                <div class="col-12"><input name="name" value="{{ old('name', $guide->name) }}" class="form-control form-control-sm" required></div>
+                                <div class="col-12"><input name="email" value="{{ old('email', $guide->email) }}" type="email" class="form-control form-control-sm" placeholder="Email"></div>
+                                <button type="submit" class="btn btn-sm btn-primary">Update Guide</button>
                             </form>
-                            <form method="POST" action="{{ route('admin.tour-guides.destroy', $guide) }}" class="mt-3" onsubmit="return confirm('Delete this guide?')">
+                            <form method="POST" action="{{ route('admin.tour-guides.destroy', $guide) }}" class="mt-2" onsubmit="return confirm('Delete this guide?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="admin-btn-danger">Delete Guide</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Delete Guide</button>
                             </form>
                         </details>
                     </div>
-                @empty
-                    <p class="text-gray-500 col-span-full">No guides have been added yet.</p>
-                @endforelse
-            </section>
+                </div>
+            @empty
+                <p class="text-muted">No guides have been added yet.</p>
+            @endforelse
+        </div>
 
+        <div class="mt-4">
             {{ $guides->links() }}
         </div>
     </div>
-</x-app-layout>
+@endsection

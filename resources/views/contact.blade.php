@@ -10,11 +10,6 @@
                     <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
                         <h1 class="display-3 text-white animated slideInDown">Contact Us</h1>
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
-                            </ol>
                         </nav>
                     </div>
                 </div>
@@ -68,7 +63,7 @@
                         </div>
                         <div class="ms-3">
                             <h5 class="text-primary">Email</h5>
-                            <p class="mb-0">info@yourtouragency.com</p>
+                            <p class="mb-0">xuxin@tourist.com</p>
                         </div>
                     </div>
                 </div>

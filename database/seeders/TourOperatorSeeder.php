@@ -66,7 +66,7 @@ class TourOperatorSeeder extends Seeder
         ]));
 
         $placeDestinations = [
-            ['name' => 'Siem Reap', 'discount' => '30% OFF', 'image_path' => 'img/destination-1.jpg'],
+            ['name' => 'Siem Reap', 'discount' => '30% OFF', 'image_path' => 'img/destination-1.'],
             ['name' => 'Phnom Penh', 'discount' => '25% OFF', 'image_path' => 'img/destination-2.jpg'],
             ['name' => 'Sihanoukville', 'discount' => '35% OFF', 'image_path' => 'img/destination-3.jpg'],
             ['name' => 'Kampot', 'discount' => '20% OFF', 'image_path' => 'img/destination-4.jpg'],

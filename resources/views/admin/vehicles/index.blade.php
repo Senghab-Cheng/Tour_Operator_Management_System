@@ -1,83 +1,68 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Manage Vehicles</h2>
-    </x-slot>
+@extends('layouts.front')
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            @include('admin.partials.nav')
-            @include('admin.partials.alerts')
+@section('title', 'Manage Vehicles')
 
-            <section class="admin-card p-6">
-                <h3 class="admin-section-title">Add Vehicle</h3>
-                <form method="POST" action="{{ route('admin.vehicles.store') }}" class="grid md:grid-cols-3 gap-4">
-                    @csrf
-                    <select name="type" class="admin-input" required>
+@section('content')
+    <div class="container py-5">
+        <h2 class="mb-4">Manage Vehicles</h2>
+
+        @include('admin.partials.nav')
+        @include('admin.partials.alerts')
+
+        <div class="card p-4 mb-4">
+            <h3 class="h5 mb-3">Add Vehicle</h3>
+            <form method="POST" action="{{ route('admin.vehicles.store') }}" class="row g-3">
+                @csrf
+                <div class="col-md-4">
+                    <select name="type" class="form-control" required>
                         <option value="tuktuk">Tuktuk</option>
                         <option value="car">Car</option>
                         <option value="van">Van</option>
                         <option value="bus">Bus</option>
                     </select>
-                    <input name="plate_number" value="{{ old('plate_number') }}" class="admin-input" placeholder="Plate number" required>
-                    <input name="capacity" value="{{ old('capacity') }}" type="number" min="1" class="admin-input" placeholder="Capacity" required>
-                    <input name="driver_name" value="{{ old('driver_name') }}" class="admin-input" placeholder="Driver name">
-                    <input name="driver_phone" value="{{ old('driver_phone') }}" class="admin-input" placeholder="Driver phone">
-                    <select name="status" class="admin-input">
-                        <option value="available">Available</option>
-                        <option value="in_use">In use</option>
-                        <option value="maintenance">Maintenance</option>
-                    </select>
-                    <div class="md:col-span-3">
-                        <button type="submit" class="admin-btn-primary">Save Vehicle</button>
-                    </div>
-                </form>
-            </section>
-
-            <section class="admin-card overflow-hidden">
-                <div class="divide-y divide-gray-100">
-                    @forelse ($vehicles as $vehicle)
-                        <details class="p-5">
-                            <summary class="cursor-pointer list-none flex justify-between gap-4">
-                                <div>
-                                    <h4 class="font-semibold text-gray-900">{{ strtoupper($vehicle->plate_number) }}</h4>
-                                    <p class="text-sm text-gray-500">{{ ucfirst($vehicle->type) }} · {{ $vehicle->capacity }} seats · {{ $vehicle->status }}</p>
-                                </div>
-                                <span class="admin-summary">Edit Vehicle</span>
-                            </summary>
-                            <form method="POST" action="{{ route('admin.vehicles.update', $vehicle) }}" class="mt-4 grid md:grid-cols-3 gap-3">
-                                @csrf
-                                @method('PUT')
-                                <select name="type" class="admin-input" required>
-                                    @foreach (['tuktuk', 'car', 'van', 'bus'] as $type)
-                                        <option value="{{ $type }}" @selected($vehicle->type === $type)>{{ ucfirst($type) }}</option>
-                                    @endforeach
-                                </select>
-                                <input name="plate_number" value="{{ $vehicle->plate_number }}" class="admin-input" required>
-                                <input name="capacity" value="{{ $vehicle->capacity }}" type="number" min="1" class="admin-input" required>
-                                <input name="driver_name" value="{{ $vehicle->driver_name }}" class="admin-input" placeholder="Driver name">
-                                <input name="driver_phone" value="{{ $vehicle->driver_phone }}" class="admin-input" placeholder="Driver phone">
-                                <select name="status" class="admin-input">
-                                    @foreach (['available', 'in_use', 'maintenance'] as $status)
-                                        <option value="{{ $status }}" @selected($vehicle->status === $status)>{{ ucfirst(str_replace('_', ' ', $status)) }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="md:col-span-3">
-                                    <button type="submit" class="admin-btn-primary">Update Vehicle</button>
-                                </div>
-                            </form>
-                            <form method="POST" action="{{ route('admin.vehicles.destroy', $vehicle) }}" class="mt-3" onsubmit="return confirm('Delete this vehicle?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="admin-btn-danger">Delete Vehicle</button>
-                            </form>
-                        </details>
-                    @empty
-                        <p class="p-6 text-gray-500">No vehicles have been added yet.</p>
-                    @endforelse
                 </div>
-            </section>
+                <div class="col-md-4"><input name="plate_number" value="{{ old('plate_number') }}" class="form-control" placeholder="Plate number" required></div>
+                <div class="col-md-4"><input name="capacity" value="{{ old('capacity') }}" type="number" min="1" class="form-control" placeholder="Capacity" required></div>
+                <div class="col-md-12"><button type="submit" class="btn btn-primary">Save Vehicle</button></div>
+            </form>
+        </div>
 
+        <div class="card">
+            <div class="list-group list-group-flush">
+                @forelse ($vehicles as $vehicle)
+                    <div class="list-group-item p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="h6 mb-0">{{ strtoupper($vehicle->plate_number) }}</h4>
+                                <small class="text-muted">{{ ucfirst($vehicle->type) }} · {{ $vehicle->capacity }} seats · {{ $vehicle->status }}</small>
+                            </div>
+                            <details>
+                                <summary class="btn btn-sm btn-outline-primary">Edit</summary>
+                                <div class="mt-3">
+                                    <form method="POST" action="{{ route('admin.vehicles.update', $vehicle) }}" class="row g-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="col-md-6"><input name="plate_number" value="{{ $vehicle->plate_number }}" class="form-control form-control-sm" required></div>
+                                        <div class="col-md-6"><input name="capacity" value="{{ $vehicle->capacity }}" type="number" min="1" class="form-control form-control-sm" required></div>
+                                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                    </form>
+                                    <form method="POST" action="{{ route('admin.vehicles.destroy', $vehicle) }}" class="mt-2" onsubmit="return confirm('Delete this vehicle?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                @empty
+                    <div class="p-4 text-muted">No vehicles have been added yet.</div>
+                @endforelse
+            </div>
+        </div>
+
+        <div class="mt-4">
             {{ $vehicles->links() }}
         </div>
     </div>
-</x-app-layout>
+@endsection
