@@ -1,5 +1,4 @@
-@import 'tailwindcss';
-
+@import "tailwindcss";
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
@@ -17,7 +16,6 @@
     --color-trail-600: #6a9412;
     --color-trail-700: #4f6f0f;
     --color-trail-900: #1f2e12;
-
     --color-dusk-900: #14210b;
 }
 
