@@ -27,7 +27,7 @@
                         <option value="inactive">Inactive</option>
                     </select>
                 </div>
-                <div class="col-md-12"><input name="photo_path" value="{{ old('photo_path') }}" class="form-control" placeholder="Or image path, e.g. img/about.jpg"></div>
+                <div class="col-md-12"><input name="photo_path" value="{{ old('photo_path') }}" class="form-control" placeholder="Or image path, e.g. img/touristInCam.jpeg"></div>
                 <div class="col-md-12"><textarea name="bio" class="form-control" rows="4" placeholder="Bio">{{ old('bio') }}</textarea></div>
                 <div class="col-md-12"><button type="submit" class="btn btn-primary">Save Guide</button></div>
             </form>
@@ -38,7 +38,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 p-4">
                         <div class="d-flex align-items-center gap-3 mb-3">
-                            <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/about.jpg') }}" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" alt="{{ $guide->name }}">
+                            <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/touristInCam.jpeg') }}" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" alt="{{ $guide->name }}">
                             <div>
                                 <h4 class="h6 mb-0">{{ $guide->name }}</h4>
                                 <small class="text-muted">{{ $guide->status }} · {{ $guide->tour_schedules_count }} trips</small>

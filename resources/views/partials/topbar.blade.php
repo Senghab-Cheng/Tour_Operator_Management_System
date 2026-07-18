@@ -5,7 +5,7 @@
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
                     <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>Street 240, Phnom Penh, Cambodia</small>
                     <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+855 12 345 678</small>
-                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>info@yourtouragency.com</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>xuxin@tourist.com</small>
                 </div>
             </div>
             <div class="col-lg-4 text-center text-lg-end">

@@ -17,7 +17,7 @@ class DestinationFactory extends Factory
      */
     public function definition(): array
     {
-        $images = ['img/destination-1.jpg', 'img/destination-2.jpg', 'img/destination-3.jpg', 'img/destination-4.jpg'];
+        $images = ['img/destination-1.jpg', 'img/destination-2.', 'img/destination-3.jpg', 'img/destination-4.jpg'];
 
         return [
             'name' => fake()->unique()->city(),

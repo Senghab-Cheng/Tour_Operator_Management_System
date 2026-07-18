@@ -6,7 +6,7 @@
 <div class="container py-5 mb-5">
     <div class="row g-5">
         <div class="col-lg-4 text-center">
-            <img src="{{ $tourGuide->photo ? asset($tourGuide->photo) : asset('img/about.jpg') }}"
+            <img src="{{ $tourGuide->photo ? asset($tourGuide->photo) : asset('img/touristInCam.jpeg') }}"
                  class="rounded-circle shadow-sm mb-3" style="width: 220px; height: 220px; object-fit: cover;"
                  alt="{{ $tourGuide->name }}">
             <h3 class="mb-1">{{ $tourGuide->name }}</h3>

@@ -14,7 +14,7 @@
                     <h4 class="text-white mb-3">Contact</h4>
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Street 240, Phnom Penh, Cambodia</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+855 12 345 678</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@yourtouragency.com</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>xuxin@tourist.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>

@@ -25,7 +25,7 @@
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt="" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="img/touristInCam.jpeg" alt="" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -104,46 +104,8 @@
                             <p>Reliable pickup, drop-off, and inter-province transport with experienced drivers</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                            <h5>Temple & Heritage Tours</h5>
-                            <p>Guided visits to Angkor Wat, Bayon, and Cambodia's ancient Khmer temples</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                            <h5>Hotel Booking</h5>
-                            <p>We reserve accommodation that fits your budget, from riverside hotels to beachfront resorts</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                            <h5>Custom Itineraries</h5>
-                            <p>Multi-day routes across Siem Reap, Phnom Penh, Kampot, and the southern islands</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="service-item rounded pt-3">
-                        <div class="p-4">
-                            <i class="fa fa-3x fa-cog text-primary mb-4"></i>
-                            <h5>Airport & Transport Transfers</h5>
-                            <p>Reliable pickup, drop-off, and inter-province transport with experienced drivers</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             </div>
         </div>
-    </div>
     <!-- Service End -->
 
 
@@ -227,7 +189,7 @@
                         </div>
                         <div class="ms-3">
                             <h5 class="text-primary">Email</h5>
-                            <p class="mb-0">info@yourtouragency.com</p>
+                            <p class="mb-0">xuxin@tourist.com</p>
                         </div>
                     </div>
                 </div>
