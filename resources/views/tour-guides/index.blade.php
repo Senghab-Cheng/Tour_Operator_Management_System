@@ -19,7 +19,7 @@
         @forelse ($guides as $guide)
             <div class="col-lg-3 col-md-4 col-sm-6 wow fadeInUp">
                 <div class="card h-100 border-0 shadow-sm text-center">
-                    <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/about.jpg') }}"
+                    <img src="{{ $guide->photo ? asset($guide->photo) : asset('img/touristInCam.jpeg') }}"
                          class="card-img-top rounded-circle mx-auto mt-4" style="width: 130px; height: 130px; object-fit: cover;"
                          alt="{{ $guide->name }}">
                     <div class="card-body">

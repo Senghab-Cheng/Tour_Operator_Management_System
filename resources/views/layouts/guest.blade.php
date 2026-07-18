@@ -17,7 +17,7 @@
 
             {{-- Left: photo + itinerary signature (hidden on small screens) --}}
             <div class="relative hidden lg:flex flex-col justify-between p-12 overflow-hidden bg-dusk-900">
-                <img src="{{ asset('img/bg-hero.jpg') }}" alt=""
+                <img src="{{ asset('img/TourismInCam.png') }}" alt=""
                      class="absolute inset-0 w-full h-full object-cover opacity-40">
                 <div class="absolute inset-0 bg-gradient-to-t from-dusk-900 via-dusk-900/60 to-dusk-900/20"></div>
 

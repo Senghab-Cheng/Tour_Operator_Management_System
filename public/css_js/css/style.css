@@ -203,7 +203,7 @@
 
 /*** Hero Header ***/
 .hero-header {
-    background: linear-gradient(rgba(20, 20, 31, .7), rgba(20, 20, 31, .7)), url('/img/bg-hero.jpg');
+    background: linear-gradient(rgba(20, 20, 31, .7), rgba(20, 20, 31, .7)), url('https://static.wixstatic.com/media/8df472_c651b51c4d314e769907e611ee8d0725~mv2.jpg/v1/fill/w_568,h_380,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/8df472_c651b51c4d314e769907e611ee8d0725~mv2.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
