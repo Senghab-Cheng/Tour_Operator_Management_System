@@ -62,6 +62,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(function () {
     Route::redirect('/', '/admin/tour-packages')->name('dashboard');
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::patch('/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.status');
 
     Route::get('/tour-packages', [TourPackageController::class, 'index'])->name('tour-packages.index');
     Route::post('/tour-packages', [TourPackageController::class, 'store'])->name('tour-packages.store');

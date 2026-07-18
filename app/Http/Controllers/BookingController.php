@@ -36,6 +36,10 @@ class BookingController extends Controller
             return response()->json($bookings);
         }
 
+        if ($request->user()->isStaff()) {
+            return view('admin.bookings.index', compact('bookings'));
+        }
+
         return view('bookings.index', compact('bookings'));
     }
 
