@@ -119,5 +119,4 @@
             </div>
         </div>
     </div>
-    @endauth
 </nav>
