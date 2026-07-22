@@ -39,9 +39,9 @@ class ReviewController extends Controller
             abort(403, 'You can only review your own bookings.');
         }
 
-        if ($booking->status !== 'completed') {
+        if ($booking->status === 'cancelled') {
             throw ValidationException::withMessages([
-                'booking_id' => ['You can only review completed bookings.'],
+                'booking_id' => ['You can only review a booking that has not been cancelled.'],
             ]);
         }
 
