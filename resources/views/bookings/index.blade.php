@@ -2,6 +2,35 @@
 
 @section('title', 'My Bookings')
 
+@section('styles')
+<style>
+    .star-rating-input {
+        display: inline-flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+    .star-rating-input input {
+        display: none;
+    }
+    .star-rating-input label {
+        cursor: pointer;
+        font-size: 1.6rem;
+        color: #e0e0e0;
+        padding: 0 2px;
+        transition: color 0.15s ease-in-out;
+    }
+    .star-rating-input input:checked ~ label,
+    .star-rating-input label:hover,
+    .star-rating-input label:hover ~ label {
+        color: #ffc107;
+    }
+    .star-rating-display {
+        color: #ffc107;
+        letter-spacing: 2px;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="container py-5">
         <h2 class="mb-4">My Bookings</h2>
@@ -42,6 +71,59 @@
                                 @endif
                             </div>
                         </div>
+
+                        @if ($booking->status !== 'cancelled')
+                            <div class="mt-3 pt-3 border-top">
+                                @if ($booking->review)
+                                    {{-- Feedback already submitted for this trip --}}
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="star-rating-display">{{ str_repeat('★', $booking->review->rating) }}{{ str_repeat('☆', 5 - $booking->review->rating) }}</span>
+                                            @if ($booking->review->comment)
+                                                <p class="mb-0 text-muted mt-1">{{ $booking->review->comment }}</p>
+                                            @endif
+                                        </div>
+                                        <form method="POST" action="{{ route('reviews.destroy', $booking->review) }}"
+                                              onsubmit="return confirm('Delete your review?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete review</button>
+                                        </form>
+                                    </div>
+                                @else
+                                    {{-- Feedback form: let the user rate and comment on this completed trip --}}
+                                    <button class="btn btn-sm btn-primary rounded-pill" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#review-form-{{ $booking->id }}">
+                                        Leave a review
+                                    </button>
+
+                                    <div class="collapse mt-3" id="review-form-{{ $booking->id }}">
+                                        <form method="POST" action="{{ route('reviews.store') }}">
+                                            @csrf
+                                            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+
+                                            <div class="mb-2">
+                                                <label class="form-label d-block mb-1">Your rating</label>
+                                                <div class="star-rating-input">
+                                                    @for ($i = 5; $i >= 1; $i--)
+                                                        <input type="radio" name="rating" id="rating-{{ $booking->id }}-{{ $i }}" value="{{ $i }}" required>
+                                                        <label for="rating-{{ $booking->id }}-{{ $i }}"><i class="fa fa-star"></i></label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2">
+                                                <label for="comment-{{ $booking->id }}" class="form-label">Comment (optional)</label>
+                                                <textarea name="comment" id="comment-{{ $booking->id }}" class="form-control"
+                                                          rows="3" maxlength="2000" placeholder="How was your trip?"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-sm btn-success rounded-pill">Submit feedback</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 @empty
                     <div class="p-4 text-center">
