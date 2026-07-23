@@ -52,6 +52,24 @@
                                     {{ ucfirst($booking->status) }}
                                 </span>
 
+                                @if ($booking->payment)
+                                    <span class="badge {{ $booking->payment->status === 'paid' ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ strtoupper($booking->payment->method) }} &middot; {{ ucfirst($booking->payment->status) }}
+                                    </span>
+
+                                    @if ($booking->payment->status === 'pending')
+                                        <form method="POST" action="{{ route('admin.payments.status', $booking->payment) }}"
+                                              onsubmit="return confirm('Mark payment for {{ $booking->booking_code }} as paid?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="paid">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">Mark Paid</button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <span class="badge bg-light text-muted border">No payment yet</span>
+                                @endif
+
                                 <form method="POST" action="{{ route('admin.bookings.status', $booking) }}"
                                       class="d-flex align-items-center gap-2"
                                       onsubmit="return confirm('Change status of {{ $booking->booking_code }} to ' + this.status.value + '?');">

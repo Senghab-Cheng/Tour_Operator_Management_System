@@ -61,6 +61,14 @@
                                     {{ ucfirst($booking->status) }}
                                 </span>
 
+                                @if ($booking->status === 'pending')
+                                    <div class="mt-2">
+                                        <a href="{{ route('bookings.payment.show', $booking) }}" class="btn btn-sm btn-primary">
+                                            {{ $booking->payment ? 'View payment' : 'Complete payment' }}
+                                        </a>
+                                    </div>
+                                @endif
+
                                 @if (! in_array($booking->status, ['cancelled', 'completed']))
                                     <form method="POST" action="{{ route('bookings.cancel', $booking) }}"
                                           onsubmit="return confirm('Cancel this booking?');" class="mt-2">

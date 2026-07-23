@@ -35,16 +35,22 @@
             </div>
         </div>
 
-        @if ($upcoming)
+        @if ($totalBookings > 0)
             <div class="card bg-primary text-white p-4 mt-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="text-white-50 text-uppercase mb-1" style="font-size: 0.75rem;">Coming up</p>
-                        <h4 class="text-white mb-1">{{ $upcoming->tourSchedule->tourPackage->title }}</h4>
-                        <p class="text-white-75 mb-0">
-                            {{ $upcoming->tourSchedule->departure_date->format('D, M j Y') }}
-                            &middot; {{ $upcoming->number_of_people }} {{ Str::plural('person', $upcoming->number_of_people) }}
-                        </p>
+                        @if ($upcoming)
+                            <p class="text-white-50 text-uppercase mb-1" style="font-size: 0.75rem;">Coming up</p>
+                            <h4 class="text-white mb-1">{{ $upcoming->tourSchedule->tourPackage->title }}</h4>
+                            <p class="text-white-75 mb-0">
+                                {{ $upcoming->tourSchedule->departure_date->format('D, M j Y') }}
+                                &middot; {{ $upcoming->number_of_people }} {{ Str::plural('person', $upcoming->number_of_people) }}
+                            </p>
+                        @else
+                            <p class="text-white-50 text-uppercase mb-1" style="font-size: 0.75rem;">Your bookings</p>
+                            <h4 class="text-white mb-1">{{ $totalBookings }} {{ Str::plural('booking', $totalBookings) }}</h4>
+                            <p class="text-white-75 mb-0">No upcoming trips right now.</p>
+                        @endif
                     </div>
                     <a href="{{ route('bookings.index') }}" class="btn btn-outline-light rounded-pill">
                         View Booking

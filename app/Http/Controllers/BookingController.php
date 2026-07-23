@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Models\Payment;
 use App\Models\TourSchedule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -87,22 +86,21 @@ class BookingController extends Controller
                 'tour_schedule_id' => $schedule->id,
                 'number_of_people' => $validated['number_of_people'],
                 'total_price' => $totalPrice,
-                'status' => 'confirmed',
+                'status' => 'pending',
             ]);
 
             $schedule->increment('seats_booked', $validated['number_of_people']);
 
-            Payment::create([
-                'booking_id' => $booking->id,
-                'amount' => $totalPrice,
-                'method' => 'cash',
-                'status' => 'paid',
-            ]);
-
             return $booking->load(['tourSchedule.tourPackage', 'payment']);
         });
 
-        return $this->respond($request, $booking, 201, route('bookings.index'), 'Booking created successfully.');
+        return $this->respond(
+            $request,
+            $booking,
+            201,
+            route('bookings.payment.show', $booking),
+            'Booking created! Please complete payment to confirm your trip.'
+        );
     }
 
     public function updateStatus(Request $request, Booking $booking): JsonResponse|RedirectResponse

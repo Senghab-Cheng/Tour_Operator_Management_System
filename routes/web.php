@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
+    Route::get('/bookings/{booking}/payment', [PaymentController::class, 'showForBooking'])->name('bookings.payment.show');
+    Route::post('/bookings/{booking}/payment', [PaymentController::class, 'store'])->name('bookings.payment.store');
+
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });

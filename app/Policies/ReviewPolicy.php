@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\Review;
 use App\Models\User;
 
@@ -14,7 +15,7 @@ class ReviewPolicy
 
     public function create(User $user): bool
     {
-        return true;
+        return $user->role === UserRole::Customer;
     }
 
     public function delete(User $user, Review $review): bool

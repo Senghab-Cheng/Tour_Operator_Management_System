@@ -27,6 +27,8 @@ class ReviewController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', Review::class);
+
         $validated = $request->validate([
             'booking_id' => ['required', 'exists:bookings,id'],
             'rating' => ['required', 'integer', 'min:1', 'max:5'],

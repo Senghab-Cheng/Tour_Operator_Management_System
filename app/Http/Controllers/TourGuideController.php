@@ -14,7 +14,7 @@ class TourGuideController extends Controller
     {
         $query = TourGuide::query()->withCount('tourSchedules');
 
-        if (! $request->user()?->isStaff()) {
+        if (!$request->user()?->isStaff()) {
             $query->active();
         }
 
@@ -38,16 +38,28 @@ class TourGuideController extends Controller
     public function show(Request $request, TourGuide $tourGuide): JsonResponse|View
     {
         $tourGuide->load([
-            'tourSchedules' => fn ($q) => $q->where('status', 'scheduled')
+            'tourSchedules' => fn($q) => $q->where('status', 'scheduled')
                 ->where('departure_date', '>=', now()->toDateString())
                 ->with('tourPackage'),
         ]);
 
+        $reviews = \App\Models\Review::query()
+            ->whereHas('booking.tourSchedule', fn($q) => $q->where('tour_guide_id', $tourGuide->id))
+            ->with('user:id,name')
+            ->latest()
+            ->get();
+
+        $averageRating = $reviews->isNotEmpty() ? round($reviews->avg('rating'), 1) : null;
+
         if ($request->wantsJson()) {
-            return response()->json($tourGuide);
+            return response()->json([
+                'guide' => $tourGuide,
+                'reviews' => $reviews,
+                'average_rating' => $averageRating,
+            ]);
         }
 
-        return view('tour-guides.show', compact('tourGuide'));
+        return view('tour-guides.show', compact('tourGuide', 'reviews', 'averageRating'));
     }
 
     public function store(Request $request): JsonResponse|RedirectResponse
@@ -102,10 +114,10 @@ class TourGuideController extends Controller
 
     private function imagePath(Request $request, string $field, ?string $fallback = null): ?string
     {
-        if (! $request->hasFile($field)) {
+        if (!$request->hasFile($field)) {
             return $fallback;
         }
 
-        return 'storage/'.$request->file($field)->store('tour-guides', 'public');
+        return 'storage/' . $request->file($field)->store('tour-guides', 'public');
     }
 }

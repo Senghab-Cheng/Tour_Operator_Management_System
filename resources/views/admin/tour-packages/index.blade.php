@@ -58,7 +58,14 @@
                                 <div class="col-md-4"><input name="title" value="{{ old('title', $package->title) }}" class="form-control" required></div>
                                 <div class="col-md-4"><input name="destination" value="{{ old('destination', $package->destination) }}" class="form-control" required></div>
                                 <div class="col-md-4"><input name="price" value="{{ old('price', $package->price) }}" type="number" min="0" step="0.01" class="form-control" required></div>
-                                <button type="submit" class="btn btn-primary btn-sm">Update Tour</button>
+                                <div class="col-md-8">
+                                    <label class="form-label small mb-1">Replace cover image</label>
+                                    <input name="cover_image" type="file" accept="image/*" class="form-control form-control-sm">
+                                    <small class="text-muted">Leave empty to keep the current image.</small>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100">Update Tour</button>
+                                </div>
                             </form>
                         </div>
 
