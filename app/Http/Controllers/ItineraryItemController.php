@@ -19,6 +19,8 @@ class ItineraryItemController extends Controller
 
     public function store(Request $request, TourPackage $tourPackage): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', ItineraryItem::class);
+
         $validated = $request->validate([
             'day_number' => ['required', 'integer', 'min:1'],
             'title' => ['required', 'string', 'max:255'],
@@ -35,6 +37,8 @@ class ItineraryItemController extends Controller
     {
         abort_unless($itineraryItem->tour_package_id === $tourPackage->id, 404);
 
+        $this->authorize('update', $itineraryItem);
+
         $validated = $request->validate([
             'day_number' => ['sometimes', 'integer', 'min:1'],
             'title' => ['sometimes', 'string', 'max:255'],
@@ -50,6 +54,8 @@ class ItineraryItemController extends Controller
     public function destroy(Request $request, TourPackage $tourPackage, ItineraryItem $itineraryItem): JsonResponse|RedirectResponse
     {
         abort_unless($itineraryItem->tour_package_id === $tourPackage->id, 404);
+
+        $this->authorize('delete', $itineraryItem);
 
         $itineraryItem->delete();
 

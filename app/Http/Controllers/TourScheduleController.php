@@ -79,6 +79,8 @@ class TourScheduleController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', TourSchedule::class);
+
         $validated = $request->validate([
             'tour_package_id' => ['required', 'exists:tour_packages,id'],
             'tour_guide_id' => ['nullable', 'exists:tour_guides,id'],
@@ -101,6 +103,8 @@ class TourScheduleController extends Controller
 
     public function update(Request $request, TourSchedule $tourSchedule): JsonResponse|RedirectResponse
     {
+        $this->authorize('update', $tourSchedule);
+
         $validated = $request->validate([
             'tour_guide_id' => ['nullable', 'exists:tour_guides,id'],
             'vehicle_id' => ['nullable', 'exists:vehicles,id'],
@@ -118,6 +122,8 @@ class TourScheduleController extends Controller
 
     public function destroy(Request $request, TourSchedule $tourSchedule): JsonResponse|RedirectResponse
     {
+        $this->authorize('delete', $tourSchedule);
+
         if ($tourSchedule->seats_booked > 0) {
             return $this->respond($request, ['message' => 'Cannot delete a schedule with active bookings.'], 422);
         }

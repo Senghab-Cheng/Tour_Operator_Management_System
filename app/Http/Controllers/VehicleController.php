@@ -40,6 +40,8 @@ class VehicleController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', Vehicle::class);
+
         $validated = $request->validate([
             'type' => ['required', 'in:tuktuk,car,van,bus'],
             'plate_number' => ['required', 'string', 'max:50', 'unique:vehicles,plate_number'],
@@ -58,6 +60,8 @@ class VehicleController extends Controller
 
     public function update(Request $request, Vehicle $vehicle): JsonResponse|RedirectResponse
     {
+        $this->authorize('update', $vehicle);
+
         $validated = $request->validate([
             'type' => ['sometimes', 'in:tuktuk,car,van,bus'],
             'plate_number' => ['sometimes', 'string', 'max:50', 'unique:vehicles,plate_number,'.$vehicle->id],
@@ -74,6 +78,8 @@ class VehicleController extends Controller
 
     public function destroy(Request $request, Vehicle $vehicle): JsonResponse|RedirectResponse
     {
+        $this->authorize('delete', $vehicle);
+
         $vehicle->delete();
 
         return $this->respond($request, null, 204, null, 'Vehicle deleted.');

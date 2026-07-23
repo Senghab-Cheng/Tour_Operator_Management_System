@@ -27,6 +27,8 @@ class DestinationController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', Destination::class);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'discount' => ['nullable', 'string', 'max:50'],
@@ -43,6 +45,8 @@ class DestinationController extends Controller
 
     public function update(Request $request, Destination $destination): JsonResponse|RedirectResponse
     {
+        $this->authorize('update', $destination);
+
         $validated = $request->validate([
             'name' => ['sometimes', 'string', 'max:255'],
             'discount' => ['nullable', 'string', 'max:50'],
@@ -59,6 +63,8 @@ class DestinationController extends Controller
 
     public function destroy(Request $request, Destination $destination): JsonResponse|RedirectResponse
     {
+        $this->authorize('delete', $destination);
+
         $destination->delete();
 
         return $this->respond($request, null, 204, route('admin.destinations.index'), 'Destination deleted.');

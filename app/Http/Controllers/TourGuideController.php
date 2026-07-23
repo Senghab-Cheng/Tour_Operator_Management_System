@@ -64,6 +64,8 @@ class TourGuideController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', TourGuide::class);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
@@ -86,6 +88,8 @@ class TourGuideController extends Controller
 
     public function update(Request $request, TourGuide $tourGuide): JsonResponse|RedirectResponse
     {
+        $this->authorize('update', $tourGuide);
+
         $validated = $request->validate([
             'name' => ['sometimes', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
@@ -107,6 +111,8 @@ class TourGuideController extends Controller
 
     public function destroy(Request $request, TourGuide $tourGuide): JsonResponse|RedirectResponse
     {
+        $this->authorize('delete', $tourGuide);
+
         $tourGuide->delete();
 
         return $this->respond($request, null, 204, route('tour-guides.index'), 'Tour guide deleted.');

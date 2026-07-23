@@ -67,12 +67,14 @@
                                         class="form-control form-control-sm" placeholder="Email"></div>
                                 <button type="submit" class="btn btn-sm btn-primary">Update Guide</button>
                             </form>
-                            <form method="POST" action="{{ route('admin.tour-guides.destroy', $guide) }}" class="mt-2"
-                                onsubmit="return confirm('Delete this guide?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete Guide</button>
-                            </form>
+                            @can('delete', $guide)
+                                <form method="POST" action="{{ route('admin.tour-guides.destroy', $guide) }}" class="mt-2"
+                                    onsubmit="return confirm('Delete this guide?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete Guide</button>
+                                </form>
+                            @endcan
                         </details>
                     </div>
                 </div>
@@ -80,25 +82,6 @@
                 <p class="text-muted">No guides have been added yet.</p>
             @endforelse
         </div>
-
-        <h4 class="mb-3 mt-5">
-            Traveler Reviews
-            @if ($averageRating)
-                <span class="text-warning fs-6 ms-2">★ {{ $averageRating }} / 5</span>
-            @endif
-        </h4>
-        @forelse ($reviews as $review)
-            <div class="border-bottom pb-3 mb-3">
-                <strong>{{ $review->user->name }}</strong>
-                <span
-                    class="text-warning ms-2">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</span>
-                @if ($review->comment)
-                    <p class="text-muted mb-0 mt-1">{{ $review->comment }}</p>
-                @endif
-            </div>
-        @empty
-            <p class="text-muted">No reviews yet for trips this guide has led.</p>
-        @endforelse
 
         <div class="mt-4">
             {{ $guides->links() }}

@@ -53,11 +53,13 @@
                                     <div class="col-12"><input name="discount" value="{{ old('discount', $destination->discount) }}" class="form-control form-control-sm" placeholder="Discount"></div>
                                     <button type="submit" class="btn btn-sm btn-primary">Update</button>
                                 </form>
-                                <form method="POST" action="{{ route('admin.destinations.destroy', $destination) }}" class="mt-2" onsubmit="return confirm('Delete this destination?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
+                                @can('delete', $destination)
+                                    <form method="POST" action="{{ route('admin.destinations.destroy', $destination) }}" class="mt-2" onsubmit="return confirm('Delete this destination?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                @endcan
                             </details>
                         </div>
                     </div>

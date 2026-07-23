@@ -73,6 +73,8 @@ class TourPackageController extends Controller
 
     public function store(Request $request): JsonResponse|RedirectResponse
     {
+        $this->authorize('create', TourPackage::class);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:tour_packages,slug'],
@@ -98,6 +100,8 @@ class TourPackageController extends Controller
 
     public function update(Request $request, TourPackage $tourPackage): JsonResponse|RedirectResponse
     {
+        $this->authorize('update', $tourPackage);
+
         $validated = $request->validate([
             'title' => ['sometimes', 'string', 'max:255'],
             'slug' => ['sometimes', 'string', 'max:255', 'unique:tour_packages,slug,'.$tourPackage->id],
@@ -129,6 +133,8 @@ class TourPackageController extends Controller
 
     public function destroy(Request $request, TourPackage $tourPackage): JsonResponse|RedirectResponse
     {
+        $this->authorize('delete', $tourPackage);
+
         $tourPackage->delete();
 
         return $this->respond($request, null, 204, route('tour-packages.index'), 'Tour package deleted.');
