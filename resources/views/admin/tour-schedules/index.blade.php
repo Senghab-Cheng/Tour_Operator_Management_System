@@ -40,23 +40,26 @@
                                     {{ $schedule->status }}
                                 </small>
                             </div>
-                            <details>
-                                <summary class="btn btn-sm btn-outline-primary">Edit</summary>
-                                <div class="mt-3">
-                                    <form method="POST" action="{{ route('admin.tour-schedules.update', $schedule) }}" class="row g-2">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="col-md-6"><input name="departure_date" value="{{ $schedule->departure_date->format('Y-m-d') }}" type="date" class="form-control form-control-sm" required></div>
-                                        <div class="col-md-6"><input name="max_seats" value="{{ $schedule->max_seats }}" type="number" min="{{ $schedule->seats_booked }}" class="form-control form-control-sm" required></div>
-                                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                    </form>
-                                    <form method="POST" action="{{ route('admin.tour-schedules.destroy', $schedule) }}" class="mt-2" onsubmit="return confirm('Delete this schedule?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </details>
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.trips.show', $schedule) }}" class="btn btn-sm btn-outline-info">Manage Trip</a>
+                                <details>
+                                    <summary class="btn btn-sm btn-outline-primary">Edit</summary>
+                                    <div class="mt-3">
+                                        <form method="POST" action="{{ route('admin.tour-schedules.update', $schedule) }}" class="row g-2">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="col-md-6"><input name="departure_date" value="{{ $schedule->departure_date->format('Y-m-d') }}" type="date" class="form-control form-control-sm" required></div>
+                                            <div class="col-md-6"><input name="max_seats" value="{{ $schedule->max_seats }}" type="number" min="{{ $schedule->seats_booked }}" class="form-control form-control-sm" required></div>
+                                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                        </form>
+                                        <form method="POST" action="{{ route('admin.tour-schedules.destroy', $schedule) }}" class="mt-2" onsubmit="return confirm('Delete this schedule?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </details>
+                            </div>
                         </div>
                     </div>
                 @empty
