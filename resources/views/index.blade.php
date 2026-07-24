@@ -61,7 +61,7 @@
     <!-- About End -->
 
 
-    <!-- Service Start -->
+<!-- Service Start -->
     <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -71,41 +71,55 @@
             <div class="row g-4">
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item rounded pt-3">
-                        <div class="p-4">
+                        <a href="#" class="text-decoration-none text-dark d-block p-4" data-bs-toggle="collapse" data-bs-target="#service-detail-1" role="button" aria-expanded="false" aria-controls="service-detail-1">
                             <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                             <h5>Temple & Heritage Tours</h5>
-                            <p>Guided visits to Angkor Wat, Bayon, and Cambodia's ancient Khmer temples</p>
+                            <p class="mb-0">Guided visits to Angkor Wat, Bayon, and Cambodia's ancient Khmer temples</p>
+                        </a>
+                        <div class="collapse px-4 pb-4" id="service-detail-1">
+                            <p class="text-muted mb-0">Small-group and private tours led by licensed local guides who know the history behind every carving. We plan around sunrise/sunset light, crowd patterns, and heat — with water, tickets, and transport all handled for you.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="service-item rounded pt-3">
-                        <div class="p-4">
+                        <a href="#" class="text-decoration-none text-dark d-block p-4" data-bs-toggle="collapse" data-bs-target="#service-detail-2" role="button" aria-expanded="false" aria-controls="service-detail-2">
                             <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
                             <h5>Hotel Booking</h5>
-                            <p>We reserve accommodation that fits your budget, from riverside hotels to beachfront resorts</p>
+                            <p class="mb-0">We reserve accommodation that fits your budget, from riverside hotels to beachfront resorts</p>
+                        </a>
+                        <div class="collapse px-4 pb-4" id="service-detail-2">
+                            <p class="text-muted mb-0">We work with a vetted network of hotels and guesthouses across every destination we cover, matched to your budget and preferred style — boutique, family-friendly, or beachfront. No booking fees, and we handle any changes for you.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="service-item rounded pt-3">
-                        <div class="p-4">
+                        <a href="#" class="text-decoration-none text-dark d-block p-4" data-bs-toggle="collapse" data-bs-target="#service-detail-3" role="button" aria-expanded="false" aria-controls="service-detail-3">
                             <i class="fa fa-3x fa-user text-primary mb-4"></i>
                             <h5>Custom Itineraries</h5>
-                            <p>Multi-day routes across Siem Reap, Phnom Penh, Kampot, and the southern islands</p>
+                            <p class="mb-0">Multi-day routes across Siem Reap, Phnom Penh, Kampot, and the southern islands</p>
+                        </a>
+                        <div class="collapse px-4 pb-4" id="service-detail-3">
+                            <p class="text-muted mb-0">Tell us your dates, pace, and interests, and we'll build a day-by-day route mixing temples, cities, and islands — with all transport, guides, and stops planned so you're not left figuring out logistics mid-trip.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
                     <div class="service-item rounded pt-3">
-                        <div class="p-4">
+                        <a href="#" class="text-decoration-none text-dark d-block p-4" data-bs-toggle="collapse" data-bs-target="#service-detail-4" role="button" aria-expanded="false" aria-controls="service-detail-4">
                             <i class="fa fa-3x fa-cog text-primary mb-4"></i>
                             <h5>Airport & Transport Transfers</h5>
-                            <p>Reliable pickup, drop-off, and inter-province transport with experienced drivers</p>
+                            <p class="mb-0">Reliable pickup, drop-off, and inter-province transport with experienced drivers</p>
+                        </a>
+                        <div class="collapse px-4 pb-4" id="service-detail-4">
+                            <p class="text-muted mb-0">Air-conditioned cars, vans, and buses with experienced drivers for airport transfers and inter-province travel. We track your flight times, so no waiting around and no surprise fees.</p>
                         </div>
                     </div>
+                </div>
              </div>
         </div>
+    </div>
     <!-- Service End -->
 
 

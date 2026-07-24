@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->call(TourOperatorSeeder::class);
+        $this->call([
+            TourOperatorSeeder::class,
+            SampleFeedbackSeeder::class,
+        ]);
     }
 }

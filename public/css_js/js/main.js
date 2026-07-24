@@ -34,7 +34,9 @@ if (window.jQuery) {
 
         // Back to top button
         $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
+            var nearBottom = ($(window).scrollTop() + $(window).height()) > ($(document).height() - 80);
+
+            if ($(this).scrollTop() > 300 && !nearBottom) {
                 $('.back-to-top').fadeIn('slow');
             } else {
                 $('.back-to-top').fadeOut('slow');

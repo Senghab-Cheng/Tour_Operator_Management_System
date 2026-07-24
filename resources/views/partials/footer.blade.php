@@ -4,8 +4,8 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Company</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="{{ route('about') }}">About Us</a>
+                    <a class="btn btn-link" href="{{ route('contact') }}">Contact Us</a>
                     <a class="btn btn-link" href="">Privacy Policy</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
                     <a class="btn btn-link" href="">FAQs & Help</a>
@@ -26,22 +26,22 @@
                     <h4 class="text-white mb-3">Gallery</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-2.jpg') }}"alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('img/Angkor-Wat_SunRise.jpg') }}"alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-3.jpg') }}"alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('img/Preah_Vihear.jpg') }}"alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-2.jpg') }}"alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('img/Oudong-Mountain.jpg') }}"alt="">
                         </div>
                         <div class="col-4">
-                           <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-3.jpg') }}"alt="">
+                           <img class="img-fluid bg-light p-1" src="{{ asset('img/Tonle-sap.jpg') }}"alt="">
                         </div>
                         <div class="col-4">
-                           <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-2.jpg') }}"alt="">
+                           <img class="img-fluid bg-light p-1" src="{{ asset('img/Koh-Rong.avif') }}"alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ asset('img/destination-3.jpg') }}"alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('img/Sihanoukville.jpg') }}"alt="">
                         </div>
                     </div>
                 </div>
@@ -63,10 +63,10 @@
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="">Home</a>
-                            <a href="">About</a>
-                            <a href="">Tours</a>
-                            <a href="">Contact</a>
+                            <a href="{{ route('home') }}">Home</a>
+                            <a href="{{ route('about') }}">About</a>
+                            <a href="{{ route('tour-packages.index') }}">Tours</a>
+                            <a href="{{ route('contact') }}">Contact</a>
                         </div>
                     </div>
                 </div>
